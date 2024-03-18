@@ -1,0 +1,100 @@
+body {
+    background-color: #00562C;
+    font-family: 'Roboto', sans-serif;
+}
+
+/*
+HEADER
+logó bal oldalon, jobb oldalon üdvözlő szöveg, alatta navigáció
+Külön wrapper azért van hogy a header színe kiérjen a lap széléig, de a szöveg túl széles böngésző ablakban középen maradjon
+*/
+header {
+    color: #00562C;
+    background-color: #A1FA4F;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+header img {
+    height: 120px;
+}
+.header-content-wrapper {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.header-text-content-wrapper {
+    align-items: right;
+    width: 80%;
+}
+.header_logo {
+    align-items: left;
+    width: 20%;
+    padding: 10px;
+}
+.navigacio ul {
+    display: flex;
+    justify-content: flex-start;
+    list-style-type: none;
+}
+.navigacio ul li {
+    margin-right: 10px;
+}
+/* A jelenlegi oldal kiemelése a menüben */
+.current-page {
+    background-color: #00562C;
+    border-radius: 12px;
+    padding: 10px 20px;
+    color: #A1FA4F;
+}
+.other-page {
+    background-color: #A1FA4F;
+    border: 2px solid #00562C;
+    border-radius: 12px;
+    padding: 10px 10px;
+    color: #00562C;
+}
+
+
+/*
+MAIN
+flex display egymás mellé tol elemeket, nem jó
+A wrapper itt talán elhagyható, mert ugyan az a háttér mint a body-ban is
+A fix header miatt kell a padding
+*/
+main {
+    color: white;
+    background-color: #00562C;
+    padding-top: 160px;
+}
+.main-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/*
+FOOTER
+Külön wrapper azért van hogy a header színe kiérjen a lap széléig, de a szöveg túl széles böngésző ablakban középen maradjon
+*/
+footer {
+    color: #00562C;
+    background-color: #A1FA4F;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+}
+.footer-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+
+
+
+
+
