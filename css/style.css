@@ -33,9 +33,18 @@ header img {
     width: 20%;
     padding: 10px;
 }
-.navigacio ul {
+.navigacio {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+}
+.menu {
+    display: flex;
+    justify-content: left;
+    list-style-type: none;
+}
+.user {
+    display: flex;
+    justify-content: right;
     list-style-type: none;
 }
 .navigacio ul li {
@@ -54,6 +63,10 @@ header img {
     border-radius: 12px;
     padding: 10px 10px;
     color: #00562C;
+}
+.other-page:hover {
+    background-color: #00562C;
+    color: #A1FA4F;
 }
 
 
