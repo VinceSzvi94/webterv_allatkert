@@ -50,45 +50,76 @@
             <div class="left-column">
                 <h1>Jegyek</h1>
                 <br>
-                <table>
-                    <tr>
-                        <th>Jegytípus</th>
-                        <th>Ár</th>
-                        <th>Kosárhoz</th>
-                    </tr>
-                    <tr>
-                        <td>Felnőtt</td>
-                        <td>2000 Ft</td>
-                        <td>
-                            <button class="minus-btn">-</button>
-                            <button class="plus-btn">+</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Diák</td>
-                        <td>1500 Ft</td>
-                        <td>
-                            <button class="minus-btn">-</button>
-                            <button class="plus-btn">+</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Nyugdíjas</td>
-                        <td>1500 Ft</td>
-                        <td>
-                            <button class="minus-btn">-</button>
-                            <button class="plus-btn">+</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Családi</td>
-                        <td>5000 Ft</td>
-                        <td>
-                            <button class="minus-btn">-</button>
-                            <button class="plus-btn">+</button>
-                        </td>
-                    </tr>
-                </table>
+                <form method="POST"></form> <!-- php-vel majd nyomon követni/feldolgozni -->
+                    <table>
+                        <tr>
+                            <th>Jegytípus</th>
+                            <th>Leírás</th>
+                            <th>Ár</th>
+                            <th>Kosárhoz</th>
+                        </tr>
+                        <tr>
+                            <td>Felnőtt</td>
+                            <td>18-60 éves kor között</td>
+                            <td>2000 Ft</td>
+                            <td class="jegyhozzaad">
+                                <input type="hidden" name="quantity_felnott" value="0">
+                                <button class="jegy-btn" name="minus_felnott">-</button>
+                                <p class="elvalaszto">/</p>
+                                <button class="jegy-btn" name="plus_felnott">+</button>
+                                <p class="mennyiseg">0</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Diák</td>
+                            <td>12-18 éves kor között vagy érvényes nappali diákigazolvány bemutatásával 25 éves korig</td>
+                            <td>1500 Ft</td>
+                            <td class="jegyhozzaad">
+                                <input type="hidden" name="quantity_diak" value="0">
+                                <button class="jegy-btn" name="minus_diak">-</button>
+                                <p class="elvalaszto">/</p>
+                                <button class="jegy-btn" name="plus_diak">+</button>
+                                <p class="mennyiseg">0</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gyerek</td>
+                            <td>4-12 éves kor között</td>
+                            <td>1000 Ft</td>
+                            <td class="jegyhozzaad">
+                                <input type="hidden" name="quantity_gyerek" value="0">
+                                <button class="jegy-btn" name="minus_gyerek">-</button>
+                                <p class="elvalaszto">/</p>
+                                <button class="jegy-btn" name="plus_gyerek">+</button>
+                                <p class="mennyiseg">0</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nyugdíjas</td>
+                            <td>60 éves kor felett</td>
+                            <td>1000 Ft</td>
+                            <td class="jegyhozzaad">
+                                <input type="hidden" name="quantity_nyugdijas" value="0">
+                                <button class="jegy-btn" name="minus_nyugdijas">-</button>
+                                <p class="elvalaszto">/</p>
+                                <button class="jegy-btn" name="plus_nyugdijas">+</button>
+                                <p class="mennyiseg">0</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Családi</td>
+                            <td>2 felnőtt és 2 gyerek részére</td>
+                            <td>5000 Ft</td>
+                            <td class="jegyhozzaad">
+                                <input type="hidden" name="quantity_csaladi" value="0">
+                                <button class="jegy-btn" name="minus_csaladi">-</button>
+                                <p class="elvalaszto">/</p>
+                                <button class="jegy-btn" name="plus_csaladi">+</button>
+                                <p class="mennyiseg">0</p>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
 
             <div class="kosar">

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Kormos Sándor, Szigetvári Vince" />
+    <title>Regisztráció | XXX állatkert</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="img/zoo3.png" />
+</head>
+
+<body>
+    <header>
+        <div class="header-content-wrapper">
+
+            <aside class="header_logo">
+                <img src="img/zoo3.png" alt="logo">
+            </aside>
+
+            <div class="header-text-content-wrapper">
+
+                <div class="oldal_focim">
+                    <h1>Isten hozta az XXX állatkert honlapján</h1>
+                </div>
+
+                <nav class="navigacio">
+                    <ul class="menu">
+                        <li><a href="index.html" class="other-page">Főoldal</a></li>
+                        <li><a href="jegyek.html" class="other-page">Jegyek</a></li>
+                        <li><a href="hirek.html" class="other-page">Hírek</a></li>
+                        <li><a href="allataink.html" class="other-page">Állataink</a></li>
+                        <li><a href="kapcsolat.html" class="other-page">Kapcsolat</a></li>
+                    </ul>
+                    <ul class="user">
+                        <li><a href="regisztracio.html" class="current-page">Regisztráció</a></li> <!-- Ha be van jelentkezve, akkor ez a menüpont ne jelenjen meg -->
+                        <li><a href="bejelentkezes.html" class="other-page">Bejelentkezés</a></li> <!-- Ha be van jelentkezve, akkor kijelentkezés ehelyett -->
+                    </ul>
+                </nav>
+
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        <div class="main-content-wrapper">
+            <!-- Az állatkert bemutatása, pár random kép + ChatGPT rizsa -->
+            <h1>Regisztráció</h1>
+            <br>
+            <form class="reg_urlap" method="POST">
+                <input type="email" name="email" placeholder="E-mail cím..." required/> <br/><br/>
+                <input type="text" name="username" placeholder="Felhasználónév..." required/> <br/><br/>
+                <input type="password" name="passwd" placeholder="Jelszó..." required/> <br/><br/>
+                <input type="password" name="passwd2" placeholder="Jelszó újra..." required/> <br/><br/>
+                <input type="submit" value="Regisztráció"/>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content-wrapper">
+            <!-- Cím, nyitvatartás, elérhetőség -->
+            <h2>Nyitvatartás:</h2>
+            <p>Hétfőtől vasárnapig: 9:00 - 18:00</p>
+        </div>
+    </footer>
+</body>
+
+</html>

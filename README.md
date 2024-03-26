@@ -1,3 +1,10 @@
+Webtervezés projektfeladat - állatkert
+
+Készítette:
+Szigetvári Vince
+Kormos Sándor
+
+A felhasznált képek forrásai:
 zoo1:
 https://www.clipartkey.com/view/JowhbJ_korkeasaari-zoo-logo/
 zoo2:

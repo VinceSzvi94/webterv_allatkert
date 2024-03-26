@@ -93,10 +93,10 @@ main {
     justify-content: space-between;
 }
 .left-column {
-    width: 45%;
+    width: 55%;
 }
 .kosar {
-    width: 45%;
+    width: 35%;
     border: 2px solid white;
 }
 @media (max-width: 600px) {
@@ -107,6 +107,28 @@ main {
         width: 100%;
     }
 }
+/* jegy gombok */
+.jegyhozzaad {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.jegy-btn {
+    border: 2px solid white;
+    background-color: #00562C;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.jegy-btn:hover {
+    background-color: white;
+    color: #00562C;
+}
+
 
 /*
 FOOTER
