@@ -85,6 +85,28 @@ main {
     max-width: 1200px;
     margin: 0 auto;
 }
+/* több oszlop a jegyek oldalon */
+.main_multicolumn-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.left-column {
+    width: 45%;
+}
+.kosar {
+    width: 45%;
+    border: 2px solid white;
+}
+@media (max-width: 600px) {
+    .main_multicolumn-content-wrapper {
+        flex-direction: column;
+    }
+    .left-column, .kosar {
+        width: 100%;
+    }
+}
 
 /*
 FOOTER

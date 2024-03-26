@@ -45,31 +45,57 @@
     </header>
 
     <main>
-        <div class="main-content-wrapper">
-            <!-- jegyek táblázatosan -->
-            <h1>Jegyek</h1>
-            <br>
-            <table>
-                <tr>
-                    <th>Jegytípus</th>
-                    <th>Ár</th>
-                </tr>
-                <tr>
-                    <td>Felnőtt</td>
-                    <td>2000 Ft</td>
-                </tr>
-                <tr>
-                    <td>Diák</td>
-                    <td>1500 Ft</td>
-                </tr>
-                <tr>
-                    <td>Nyugdíjas</td>
-                    <td>1500 Ft</td>
-                </tr>
-                <tr>
-                    <td>Családi</td>
-                    <td>5000 Ft</td>
-                </tr>
+        <div class="main_multicolumn-content-wrapper">
+
+            <div class="left-column">
+                <h1>Jegyek</h1>
+                <br>
+                <table>
+                    <tr>
+                        <th>Jegytípus</th>
+                        <th>Ár</th>
+                        <th>Kosárhoz</th>
+                    </tr>
+                    <tr>
+                        <td>Felnőtt</td>
+                        <td>2000 Ft</td>
+                        <td>
+                            <button class="minus-btn">-</button>
+                            <button class="plus-btn">+</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Diák</td>
+                        <td>1500 Ft</td>
+                        <td>
+                            <button class="minus-btn">-</button>
+                            <button class="plus-btn">+</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Nyugdíjas</td>
+                        <td>1500 Ft</td>
+                        <td>
+                            <button class="minus-btn">-</button>
+                            <button class="plus-btn">+</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Családi</td>
+                        <td>5000 Ft</td>
+                        <td>
+                            <button class="minus-btn">-</button>
+                            <button class="plus-btn">+</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="kosar">
+                <h1>Kosár</h1>
+                <br>
+            </div>
+
         </div>
     </main>
 
