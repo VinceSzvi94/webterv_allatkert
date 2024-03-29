@@ -1,6 +1,18 @@
 body {
-    background-color: #00562C;
     font-family: sans-serif;
+}
+.fooldal {
+    background-image: url('../img/fooldal_hatter.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    /* color: white;
+    background-color: #00562C; */
+    margin-top: 150px;
+    margin-bottom: 120px;
+}
+.egyeboldal {
+    background-color: #00562C;
 }
 
 /*
@@ -22,7 +34,7 @@ header img {
 }
 .header-content-wrapper {
     display: flex;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
 }
 .header-text-content-wrapper {
@@ -78,33 +90,79 @@ A wrapper itt talán elhagyható, mert ugyan az a háttér mint a body-ban is
 A fix header miatt kell a padding
 */
 main {
-    color: white;
-    background-color: #00562C;
-    padding-top: 160px;
+    margin-top: 160px;
+    margin-bottom: 120px;
 }
 .main-content-wrapper {
+    color: white;
+    background-color: #00562C;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.index-content-wrapper {
+    color: #00562C;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     max-width: 1200px;
     margin: 0 auto;
 }
+.fooldal_szoveg {
+    font-weight: bold;
+}
+/* áttesztő hátterű képek, méret szabályozás id alapján */
+.transparent_bg_img {
+    max-width: 1300px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.transparent_bg_img img {
+    max-width: 100%;
+    height: auto;
+}
 /* több oszlop a jegyek oldalon */
 .main_multicolumn-content-wrapper {
-    max-width: 1200px;
+    color: white;
+    background-color: #00562C;
+    max-width: 1300px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
 }
+/* bal oldali oszlop - JEGYEK */
 .left-column {
     width: 55%;
 }
-.kosar {
+.left-column table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.left-column table th, .left-column table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.left-column table th {
+    background-color: #4CAF50;
+    color: white;
+}
+/* jobb oldali oszlop - KOSÁR */
+.right-column {
     width: 35%;
+    padding: 20px 20px;
+}
+.kosar {
     border: 2px solid white;
+    border-radius: 12px;
+    padding: 20px 20px;
 }
 @media (max-width: 600px) {
     .main_multicolumn-content-wrapper {
         flex-direction: column;
     }
-    .left-column, .kosar {
+    .left-column, .right-column {
         width: 100%;
     }
 }
@@ -129,6 +187,21 @@ main {
     background-color: white;
     color: #00562C;
 }
+/* hirek */
+.hirbox span {
+    font-style: italic;
+}
+.hir_body {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: start; /* This will align the items to the start of the container */
+}
+.hir_body video {
+    display: flex;
+    flex: 1 0 auto; /* This will allow the video to take up any remaining space */
+    margin-left: 20px; /* This will add some space between the text and the video */
+}
 
 
 /*
@@ -148,7 +221,7 @@ footer {
     align-items: center;
 }
 .footer-content-wrapper {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     justify-content: space-around;
 	align-items: center;
