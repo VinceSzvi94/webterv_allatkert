@@ -27,7 +27,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    /* z-index: 100; */
+    z-index: 100;
 }
 header img {
     height: 120px;
@@ -188,19 +188,53 @@ main {
     color: #00562C;
 }
 /* hirek */
+.hirbox {
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.hirbox:hover {
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 10px;
+}
 .hirbox span {
     font-style: italic;
 }
 .hir_body {
+    max-width: 1300px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    align-items: start; /* This will align the items to the start of the container */
+    flex-direction: row;
 }
-.hir_body video {
-    display: flex;
-    flex: 1 0 auto; /* This will allow the video to take up any remaining space */
-    margin-left: 20px; /* This will add some space between the text and the video */
+.hir_40 {
+    width: 40%;
+}
+.hir_55 {
+    width: 55%;
+}
+.hir_55 video {
+    width: 100%;
+    max-width: 705px;
+    height: auto;
+}
+.hir_40 video {
+    width: 100%;
+    max-width: 510px;
+    height: auto;
+}
+.hir_body img {
+    max-width: 100%;
+    height: auto;
+}
+@media (max-width: 600px) {
+    .hir_body {
+        flex-direction: column;
+    }
+    .hir_40, .hir_55 {
+        width: 100%;
+    }
 }
 
 
