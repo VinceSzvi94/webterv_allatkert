@@ -131,6 +131,17 @@ main {
     display: flex;
     justify-content: space-between;
 }
+/*oszlopok a többi oldalhoz (kapcsolat, regisztráció/bejelentkezés*/
+.left-column2 {
+    width: 40%;
+    padding: 6px 6px;
+}
+.right-column2 {
+    width: 50%;
+    padding: 6px 6px;
+    display: flex;
+    justify-content: center;
+}
 /* bal oldali oszlop - JEGYEK */
 .left-column {
     width: 55%;
@@ -162,7 +173,7 @@ main {
     .main_multicolumn-content-wrapper {
         flex-direction: column;
     }
-    .left-column, .right-column {
+    .left-column, .right-column, .left-column2, .right-column2 {
         width: 100%;
     }
 }
@@ -235,6 +246,106 @@ main {
     .hir_40, .hir_55 {
         width: 100%;
     }
+}
+/* kapcsolat */
+.social-media-icons {
+    display: flex;
+    gap: 10px;
+    list-style-type: none;
+}
+.social-media-icons img {
+    max-width: 50px;
+    height: auto;
+}
+#l1 {
+    list-style-type: none;
+}
+/*regisztráció*/
+.reg_urlap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+.reg_urlap input[type="email"],
+.reg_urlap input[type="text"],
+.reg_urlap input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.reg_urlap input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    color: white;
+    background-color: #4CAF50;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 18px;
+}
+.reg_urlap input[type="submit"]:hover {
+    background-color: #45a049;
+}
+/*kép animációk*/
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes slideInFromUp {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+@keyframes slideInFromDown {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.jobbrol {
+    animation: slideInFromRight 2s ease-out;
+}
+.balrol {
+    animation: slideInFromLeft 4s ease-out;
+}
+.felulrol {
+    animation: slideInFromUp 3s ease-out;
+}
+.alulrol {
+    animation: slideInFromDown 1s ease-out;
 }
 
 

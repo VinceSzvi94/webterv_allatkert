@@ -1,0 +1,136 @@
+/*
+Állatok oldal
+*/
+
+.allatok_oldal {
+	/* background-image: url('../img/fooldal_hatter.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; */
+    background-color: #00562C;
+    color: white;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.allatok {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+}
+
+.allatok  img {
+    height: 200px;
+	border: 5px solid;
+	border-radius: 10px;
+	
+	/* center image*/
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.allatok  table {
+    width: 200px;
+	padding: 0;
+	margin: 2px;
+	border: 2px solid;
+	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.allatok th, td {
+	border: 1px solid;
+	border-radius: 10px;
+	padding: 0;
+	text-align: center;
+}
+
+h1.allatok {
+	border-radius: 10px;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.animals-domestic img {
+	border: 5px solid #F2C900;
+}
+.animals-domestic table {
+	border: 2px solid #F2C900;
+}
+.animals-domestic th {
+	border: 2px solid #F2C900;
+}
+.animals-domestic td {
+	border: 2px solid #F2C900;
+}
+h1.animals-domestic {
+	border: 5px solid #F2C900;
+	color: #F2C900;
+}
+
+.animals-reptile img {
+	border: 5px solid #00FF90;
+}
+.animals-reptile table {
+	border: 2px solid #00FF90;
+}
+.animals-reptile th {
+	border: 2px solid #00FF90;
+}
+.animals-reptile td {
+	border: 2px solid #00FF90;
+}
+h1.animals-reptile {
+	border: 5px solid #00FF90;
+	color: #00FF90;
+}
+
+.animals-water img {
+	border: 5px solid #00FFFF;
+}
+.animals-water table {
+	border: 2px solid #00FFFF;
+}
+.animals-water th {
+	border: 2px solid #00FFFF;
+}
+.animals-water td {
+	border: 2px solid #00FFFF;
+}
+h1.animals-water {
+	border: 5px solid #00FFFF;
+	color: #00FFFF;
+}
+
+.animals-land img {
+	border: 5px solid #00FF21;
+}
+.animals-land table {
+	border: 2px solid #00FF21;
+}
+.animals-land th {
+	border: 2px solid #00FF21;
+}
+.animals-land td {
+	border: 2px solid #00FF21;
+}
+h1.animals-land {
+	border: 5px solid #00FF21;
+	color: #00FF21;
+}
+
+.animals-bird img {
+	border: 5px solid #D987FF;
+}
+.animals-bird table {
+	border: 2px solid #D987FF;
+}
+.animals-bird th {
+	border: 2px solid #D987FF;
+}
+.animals-bird td {
+	border: 2px solid #D987FF;
+}
+h1.animals-bird {
+	border: 5px solid #D987FF;
+	color: #D987FF;
+}
