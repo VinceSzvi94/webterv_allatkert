@@ -1,87 +1,152 @@
 body {
-    font-family: sans-serif;
-}
-.fooldal {
-    background-image: url('../img/fooldal_hatter.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    /* color: white;
-    background-color: #00562C; */
-    margin-top: 150px;
-    margin-bottom: 120px;
-}
-.egyeboldal {
-    background-color: #00562C;
+	font-family: sans-serif;
 }
 
 /*
 HEADER
-logó bal oldalon, jobb oldalon üdvözlő szöveg, alatta navigáció
-Külön wrapper azért van hogy a header színe kiérjen a lap széléig, de a szöveg túl széles böngésző ablakban középen maradjon
+Külön wrapper azért van hogy a header színe kiérjen a lap széléig.
+Logó bal oldalon, mellette az üdvözlő szöveggel,
+alattuk a menü, bejelentkezés jobb oldalra igazítva.
+Logó + szöveg eltűnik.
 */
 header {
-    color: #00562C;
-    background-color: #A1FA4F;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-}
-header img {
-    height: 120px;
+	color: #00562C;
+	background-color: #A1FA4F;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	z-index: 100;
 }
 .header-content-wrapper {
-    display: flex;
-    max-width: 1300px;
-    margin: 0 auto;
-}
-.header-text-content-wrapper {
-    align-items: right;
-    width: 80%;
-}
-.header_logo {
-    align-items: left;
-    width: 20%;
-    padding: 10px;
-}
-.navigacio {
-    display: flex;
-    justify-content: space-between;
-}
-.menu {
-    display: flex;
-    justify-content: left;
-    list-style-type: none;
-}
-.user {
-    display: flex;
-    justify-content: right;
-    list-style-type: none;
-}
-.navigacio ul li {
-    margin-right: 10px;
-}
-/* A jelenlegi oldal kiemelése a menüben */
-.current-page {
-    background-color: #00562C;
-    border-radius: 12px;
-    padding: 10px 20px;
-    color: #A1FA4F;
-}
-.other-page {
-    background-color: #A1FA4F;
-    border: 2px solid #00562C;
-    border-radius: 12px;
-    padding: 10px 10px;
-    color: #00562C;
-}
-.other-page:hover {
-    background-color: #00562C;
-    color: #A1FA4F;
+	max-width: 1300px;
+	margin: 0 auto;
+	padding: 0 0 4px 0;
+	display: flex;
+	flex-flow: column;
+	justify-content: space-between;
 }
 
+nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	/* overflow: hidden; */
+	top: 0;
+	width: 100%;
+}
+nav li {
+	float: left;
+	margin-right: 10px;
+	margin-top: 4px;
+}
+nav li a {
+	display: block;
+	text-decoration: none;
+}
+
+/* A jelenlegi oldal kiemelése a menüben */
+.current-page {
+	background-color: #00562C;
+	border: 2px solid #00562C;
+	border-radius: 12px;
+	padding: 10px 20px;
+	color: #A1FA4F;
+}
+.other-page {
+	background-color: #A1FA4F;
+	border: 2px solid #00562C;
+	border-radius: 12px;
+	padding: 10px 10px;
+	color: #00562C;
+}
+.other-page:hover {
+	background-color: #00562C;
+	color: #A1FA4F;
+}
+
+/* */
+.header-above-nav {
+	display: flex;
+	align-items: flex-start;
+	height: 56px;
+}
+
+/* Reg, Login/Logout jobbra (kis képernyőnél, mikor 2 sorban írja ki) */
+.user li {
+	float: right;
+}
+
+/* Menu a szöveg alatt amíg nem kell eltűntetni. */
+.menu {
+	margin-left: 120px;
+}
+
+@media screen and (max-width: 855px) {
+	.header-above-nav {
+		display: none;
+	}
+	.menu {
+		margin-left: 0;
+	}
+}
+
+/* Header, footer logója */
+.logo {
+	display: flex;
+	align-items: flex-start;
+	
+	margin-top: 3px;
+	padding-right: 20px;
+	max-width: 100px;
+}
+.logo img {
+	width: 100%;
+}
+
+/*
+FOOTER
+Külön wrapper azért van hogy a footer színe kiérjen a lap széléig, de a szöveg túl széles böngésző ablakban középen maradjon
+*/
+footer {
+	color: #00562C;
+	background-color: #A1FA4F;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 105px;
+	z-index: 100;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+.footer-content-wrapper {
+	max-width: 1300px;
+	margin: 0 auto;
+	padding: 0;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: flex-start;
+}
+.footer-content-wrapper h3 {
+	margin-top: 1px;
+}
+.footer-left {
+	display: flex;
+	align-items: flex-start;
+}
+.footer-left ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
 
 /*
 MAIN
@@ -89,292 +154,319 @@ flex display egymás mellé tol elemeket, nem jó
 A wrapper itt talán elhagyható, mert ugyan az a háttér mint a body-ban is
 A fix header miatt kell a padding
 */
+
 main {
-    margin-top: 160px;
-    margin-bottom: 120px;
+	margin-top: 126px;
+	margin-bottom: 120px;
+}
+
+.fooldal {
+	background-image: url('../img/fooldal_hatter.jpg');
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	/* color: white; */
+	background-color: #00562C;
+	margin-top: 150px;
+	margin-bottom: 120px;
+}
+.egyeboldal {
+	background-color: #00562C;
 }
 .main-content-wrapper {
-    color: white;
-    background-color: #00562C;
-    max-width: 1300px;
-    margin: 0 auto;
+	color: white;
+	background-color: #00562C;
+	max-width: 1300px;
+	margin: 0 auto;
 }
+
+
+
+/* fooldal */
 .index-content-wrapper {
-    color: #00562C;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
+	color: #00562C;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	max-width: 1200px;
+	margin: 0 auto;
 }
 .fooldal_szoveg {
-    font-weight: bold;
+	font-weight: bold;
 }
-/* áttesztő hátterű képek, méret szabályozás id alapján */
-.transparent_bg_img {
-    max-width: 1300px;
-    margin: 20px auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.transparent_bg_img img {
-    max-width: 100%;
-    height: auto;
-}
+
+
+
+/* jegyek */
 /* több oszlop a jegyek oldalon */
 .main_multicolumn-content-wrapper {
-    color: white;
-    background-color: #00562C;
-    max-width: 1300px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-}
-/*oszlopok a többi oldalhoz (kapcsolat, regisztráció/bejelentkezés*/
-.left-column2 {
-    width: 40%;
-    padding: 6px 6px;
-}
-.right-column2 {
-    width: 50%;
-    padding: 6px 6px;
-    display: flex;
-    justify-content: center;
+	color: white;
+	background-color: #00562C;
+	max-width: 1300px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
 }
 /* bal oldali oszlop - JEGYEK */
 .left-column {
-    width: 55%;
+	width: 55%;
 }
 .left-column table {
-    width: 100%;
-    border-collapse: collapse;
+	width: 100%;
+	border-collapse: collapse;
 }
 .left-column table th, .left-column table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: left;
 }
 .left-column table th {
-    background-color: #4CAF50;
-    color: white;
+	background-color: #4CAF50;
+	color: white;
 }
 /* jobb oldali oszlop - KOSÁR */
 .right-column {
-    width: 35%;
-    padding: 20px 20px;
+	width: 35%;
+	padding: 20px 20px;
 }
 .kosar {
-    border: 2px solid white;
-    border-radius: 12px;
-    padding: 20px 20px;
+	border: 2px solid white;
+	border-radius: 12px;
+	padding: 20px 20px;
 }
-@media (max-width: 600px) {
-    .main_multicolumn-content-wrapper {
-        flex-direction: column;
-    }
-    .left-column, .right-column, .left-column2, .right-column2 {
-        width: 100%;
-    }
+
+/*oszlopok a többi oldalhoz (kapcsolat, regisztráció/bejelentkezés*/
+.left-column2 {
+	width: 40%;
+	padding: 6px 6px;
 }
+.right-column2 {
+	width: 50%;
+	padding: 6px 6px;
+	display: flex;
+	justify-content: center;
+}
+
+@media (max-width: 625px) {
+	.main_multicolumn-content-wrapper {
+		flex-direction: column;
+	}
+	.left-column, .right-column, .left-column2, .right-column2 {
+		width: 100%;
+	}
+}
+
 /* jegy gombok */
 .jegyhozzaad {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 }
 .jegy-btn {
-    border: 2px solid white;
-    background-color: #00562C;
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	border: 2px solid white;
+	background-color: #00562C;
+	color: white;
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .jegy-btn:hover {
-    background-color: white;
-    color: #00562C;
+	background-color: white;
+	color: #00562C;
 }
+
+
+
+/* áttesztő hátterű képek, méret szabályozás id alapján */
+.transparent_bg_img {
+	max-width: 1300px;
+	margin: 20px auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.transparent_bg_img img {
+	max-width: 100%;
+	height: auto;
+}
+
+
+
 /* hirek */
 .hirbox {
-    padding: 12px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+	padding: 12px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .hirbox:hover {
-    border: 2px solid white;
-    border-radius: 12px;
-    padding: 10px;
+	border: 2px solid white;
+	border-radius: 12px;
+	padding: 10px;
 }
 .hirbox span {
-    font-style: italic;
+	font-style: italic;
 }
+
 .hir_body {
-    max-width: 1300px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
+	max-width: 1300px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
 }
 .hir_40 {
-    width: 40%;
+	width: 40%;
 }
 .hir_55 {
-    width: 55%;
+	width: 55%;
 }
 .hir_55 video {
-    width: 100%;
-    max-width: 705px;
-    height: auto;
+	width: 100%;
+	max-width: 705px;
+	height: auto;
 }
 .hir_40 video {
-    width: 100%;
-    max-width: 510px;
-    height: auto;
+	width: 100%;
+	max-width: 510px;
+	height: auto;
 }
 .hir_body img {
-    max-width: 100%;
-    height: auto;
+	max-width: 100%;
+	height: auto;
 }
-@media (max-width: 600px) {
-    .hir_body {
-        flex-direction: column;
-    }
-    .hir_40, .hir_55 {
-        width: 100%;
-    }
+@media (max-width: 800px) {
+	.hir_body {
+		flex-direction: column;
+	}
+	.hir_40, .hir_55 {
+		width: 100%;
+	}
 }
+
+
+
 /* kapcsolat */
 .social-media-icons {
-    display: flex;
-    gap: 10px;
-    list-style-type: none;
+	display: flex;
+	gap: 10px;
+	list-style-type: none;
 }
 .social-media-icons img {
-    max-width: 50px;
-    height: auto;
+	max-width: 50px;
+	height: auto;
 }
 #l1 {
-    list-style-type: none;
+	list-style-type: none;
 }
+
+
+
 /*regisztráció*/
 .reg_urlap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 500px;
+	margin: 0 auto;
+	padding: 20px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
 }
 .reg_urlap input[type="email"],
 .reg_urlap input[type="text"],
 .reg_urlap input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+.reg_urlap input[type="reset"],
+.reg_urlap input[type="submit"] {
+	width: 46%;
+	padding: 10px;
+	border: none;
+	color: white;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 18px;
 }
 .reg_urlap input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    color: white;
-    background-color: #4CAF50;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 18px;
+	background-color: #55c058;
+	margin-left: 6%;
 }
 .reg_urlap input[type="submit"]:hover {
-    background-color: #45a049;
+	background-color: #419746;
 }
+.reg_urlap input[type="reset"] {
+    background-color: grey;
+    margin-right: 6%;
+}
+.reg_urlap input[type="reset"]:hover {
+    background-color: rgb(90, 90, 90);
+    margin-right: 6%;
+}
+.formgomb {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+
 /*kép animációk*/
 @keyframes slideInFromRight {
-    0% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+	0% {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
 }
 @keyframes slideInFromLeft {
-    0% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+	0% {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
 }
 @keyframes slideInFromUp {
-    0% {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+	0% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 @keyframes slideInFromDown {
-    0% {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+	0% {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 .jobbrol {
-    animation: slideInFromRight 2s ease-out;
+	animation: slideInFromRight 2s ease-out;
 }
 .balrol {
-    animation: slideInFromLeft 4s ease-out;
+	animation: slideInFromLeft 4s ease-out;
 }
 .felulrol {
-    animation: slideInFromUp 3s ease-out;
+	animation: slideInFromUp 3s ease-out;
 }
 .alulrol {
-    animation: slideInFromDown 1s ease-out;
+	animation: slideInFromDown 1s ease-out;
 }
-
-
-/*
-FOOTER
-Külön wrapper azért van hogy a header színe kiérjen a lap széléig, de a szöveg túl széles böngésző ablakban középen maradjon
-*/
-footer {
-    color: #00562C;
-    background-color: #A1FA4F;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    /* z-index: 100; */
-    justify-content: space-around;
-    align-items: center;
-}
-.footer-content-wrapper {
-    max-width: 1300px;
-    margin: 0 auto;
-    justify-content: space-around;
-	align-items: center;
-}
-
-
-
-
-
-
-

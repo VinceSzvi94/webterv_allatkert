@@ -37,7 +37,15 @@
 	border-radius: 10px;
 	background-color: rgba(0, 0, 0, 0.5);
 }
-.allatok th, td {
+/*Állatok tábla animáció - "kártya kurzor hatására kicsit megnagyobbodik" */
+.allatok  table {
+    transition: transform 0.3s ease-in-out;
+}
+.allatok  table:hover {
+    transform: scale(1.1);
+}
+/*----*/
+.allatok th, .allatok td {
 	border: 1px solid;
 	border-radius: 10px;
 	padding: 0;
