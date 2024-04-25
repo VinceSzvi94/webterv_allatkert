@@ -13,35 +13,8 @@
 </head>
 
 <body class="fooldal">
-	<header>
-		<div class="header-content-wrapper">
-			<div class="header-above-nav">
-				<div class="logo">
-					<img src="img/zoo3.png" alt="logo">
-				</div>
-				<div>
-					<h1>Isten hozta a Gotham állatkert honlapján!</h1>
-				</div>
-			</div>
-			<nav>
-				<div>
-					<ul class="menu">
-						<li><a href="index.html" class="current-page">Főoldal</a></li>
-						<li><a href="jegyek.html" class="other-page">Jegyek</a></li>
-						<li><a href="hirek.html" class="other-page">Hírek</a></li>
-						<li><a href="allataink.html" class="other-page">Állataink</a></li>
-						<li><a href="kapcsolat.html" class="other-page">Kapcsolat</a></li>
-					</ul>
-				</div>
-				<div>
-					<ul class="user">
-						<li><a href="regisztracio.html" class="other-page">Regisztráció</a></li> <!-- Ha be van jelentkezve, akkor ez a menüpont ne jelenjen meg -->
-						<li><a href="bejelentkezes.html" class="other-page">Bejelentkezés</a></li> <!-- Ha be van jelentkezve, akkor kijelentkezés ehelyett -->
-					</ul>
-				</div>
-			</nav>
-		</div>
-	</header>
+
+	<?php include_once 'header.php'; ?>
 
 	<main>
 		<div class="index-content-wrapper">
@@ -62,32 +35,8 @@
 		</div>
 	</main>
 
-	<footer>
-		<div class="footer-content-wrapper">
-			<div class="footer-left">
-				<div class="logo">
-					<img src="img/zoo3.png" alt="logo">
-				</div>
-				<div>
-					<h3>Nyitvatartás</h3>
-					<ul>
-						<li>Hétfő - kedd: 9:00 - 18:00</li>
-						<li>Szombat: 9:00 - 16:00</li>
-						<li>Vasárnap: Zárva</li>
-					</ul>
-				</div>
-			</div>
-			<div>
-				<h3>Szociális média</h3>
-				<ul class="social-media-icons">
-					<li><a href="https://www.facebook.com"><img src="img/facebook%20logo_icon.png" alt="Facebook"></a></li>
-					<li><a href="https://www.instagram.com"><img src="img/instagram%20logo_icon.png" alt="Instagram"></a></li>
-					<li><a href="https://www.youtube.com"><img src="img/youtube%20logo_icon.png" alt="Youtube"></a></li>
-					<li><a href="https://www.linkedin.com"><img src="img/linkedin%20logo_icon.png" alt="LinkedIn"></a></li>
-				</ul>
-			</div>
-		</div>
-	</footer>
+	<?php include_once 'footer.html'; ?>
+
 </body>
 
 </html>

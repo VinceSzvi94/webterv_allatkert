@@ -1,0 +1,25 @@
+{
+    "users": [
+        {
+            "email": "admin@gothamzoo.hu",
+            "username": "admin",
+            "password": "$2y$10$VYsBenkcembIrn\/B3LJLR.G3RRhBAU7Co5yX4ahVQj2s4QeSU28G2",
+            "profpic": "img\/zoo3.png",
+            "role": "admin"
+        },
+        {
+            "email": "szigetvari.vince@gmail.com",
+            "username": "VinceSz2",
+            "password": "$2y$10$Xfkor1fA7FuyY2NL.YOSp.owyCRzjfTY7XQJwEn8LTiM3H7mp8YYi",
+            "profpic": null,
+            "role": "user"
+        },
+        {
+            "email": "ujemail@xxx.br",
+            "username": "macika",
+            "password": "$2y$10$At7rh04kSkDbk4PBZOs1KO0WYL1dezERV4oxifNnNG2x\/ZcvjCHx2",
+            "profpic": null,
+            "role": "user"
+        }
+    ]
+}
