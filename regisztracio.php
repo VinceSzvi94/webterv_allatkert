@@ -113,7 +113,7 @@
 						exit;
 					} else {                                // az esetleges hibákat kiírjuk egy-egy bekezdésben
 						foreach ($hibak as $hiba) {
-						echo "<p>" . $hiba . "</p>";
+						echo "<p class='error-message'>" . $hiba . "</p>";
 						}
 					}
 				?>
