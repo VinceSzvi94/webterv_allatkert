@@ -32,9 +32,6 @@
                 <li><a href="hirek.php" class="<?php echo ($currentPage == "hirek") ? "current-page" : "other-page"; ?>">Hírek</a></li>
                 <li><a href="allataink.php" class="<?php echo ($currentPage == "allataink") ? "current-page" : "other-page"; ?>">Állataink</a></li>
                 <li><a href="kapcsolat.php" class="<?php echo ($currentPage == "kapcsolat") ? "current-page" : "other-page"; ?>">Kapcsolat</a></li>
-                <?php if(isset($_SESSION["user"])): ?>
-                    <li><a href="forum.php" class="<?php echo ($currentPage == "forum") ? "current-page" : "other-page"; ?>">Fórum</a></li>
-                <?php endif; ?>
             </ul>
             </div>
             <div>
