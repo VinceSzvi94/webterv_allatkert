@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="hu">
 
+<?php
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+?>
+
 <header>
     <div class="header-content-wrapper">
 
         <!-- a jelenlegi oldal meghatározása -->
         <?php
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
             $currentPage = basename($_SERVER["SCRIPT_FILENAME"], ".php");
         ?>
         

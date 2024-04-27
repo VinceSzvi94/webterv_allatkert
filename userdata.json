@@ -20,6 +20,27 @@
             "password": "$2y$10$At7rh04kSkDbk4PBZOs1KO0WYL1dezERV4oxifNnNG2x\/ZcvjCHx2",
             "profpic": null,
             "role": "user"
+        },
+        {
+            "email": "vvv@vvv.hu",
+            "username": "cucus",
+            "password": "$2y$10$tGyY2yZyX6ogvtBMh02f..fl4UIBT47AQ5Q5pBSqXq7b3QOqEJdW2",
+            "profpic": null,
+            "role": "user"
+        },
+        {
+            "email": "brekkkki@brekegok.za",
+            "username": "beKucEE",
+            "password": "$2y$10$00zpFp09r5jLCwjKDupYle.jqpQ4LTK2uhqz.6dl0z37J7cXExnuq",
+            "profpic": null,
+            "role": "user"
+        },
+        {
+            "email": "mekegok@levelek.net",
+            "username": "kecsi",
+            "password": "$2y$10$C17aGTBT1M9c1kdyDjLlf.JQh7vgKv3QyiUgABqeu8zzgiUnUxWtC",
+            "profpic": null,
+            "role": "user"
         }
     ]
 }

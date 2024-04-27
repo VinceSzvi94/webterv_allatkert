@@ -1,8 +1,11 @@
+<!DOCTYPE html>
+<html lang="hu">
+
 <!-- felhasználok a userdata.json fájlban! -->
 <?php
 	require_once 'functions.php';
 	user_init();
-	$users = load_users("userdata.json");
+	$users = load_data("userdata.json");
 
 	$hibak = [];
 
@@ -58,7 +61,7 @@
 				"role" => "user"
 			);
 			$siker = TRUE;
-			save_users("userdata.json", $new_user);
+			save_data("userdata.json", $new_user);
 		} else {
 			$siker = FALSE;
 		}
@@ -66,9 +69,6 @@
 	}
 
 ?>
-
-<!DOCTYPE html>
-<html lang="hu">
 
 <head>
 	<meta charset="UTF-8">
@@ -98,7 +98,7 @@
 					<input type="password" name="passwd2" placeholder="Jelszó újra..." required> <br><br>
 					<div class="formgomb">
 						<input type="reset" value="Vissza">
-						<input type="submit" name="regiszt" value="Regisztráció">
+						<input type="submit" class="submitclass" name="regiszt" value="Regisztráció">
 					</div>
 				</form>
 
@@ -113,7 +113,7 @@
 						exit;
 					} else {                                // az esetleges hibákat kiírjuk egy-egy bekezdésben
 						foreach ($hibak as $hiba) {
-						echo "<p class='error-message'>" . $hiba . "</p>";
+						echo '<p class="error-message">' . $hiba . '</p>';
 						}
 					}
 				?>

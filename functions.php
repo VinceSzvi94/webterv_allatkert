@@ -24,7 +24,7 @@
                 "author" => "admin",
                 "id" => "post_0",
                 "content" => "Üdvözöljük a fórumon! Kérjük, hogy tartsák tiszteletben egymás véleményét, és ne használjanak trágár szavakat!",
-                "answers" => [],
+                "comments" => [],
                 "liked_by" => [],
             );
 

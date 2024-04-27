@@ -1,5 +1,12 @@
+<!DOCTYPE html>
+<html lang="hu">
+
 <?php
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+	if (isset($_POST["kosarba"])) {
 		$quantity_felnott = $_POST["quantity_felnott"];
 		$quantity_diak = $_POST["quantity_diak"];
 		$quantity_gyerek = $_POST["quantity_gyerek"];
@@ -10,6 +17,14 @@
 
 		if ($osszesen > 0) {
 			$siker = TRUE;
+			$_SESSION['cart'] = array(
+				'felnott' => $quantity_felnott,
+				'diak' => $quantity_diak,
+				'gyerek' => $quantity_gyerek,
+				'nyugdijas' => $quantity_nyugdijas,
+				'csaladi' => $quantity_csaladi,
+				'osszesen' => $osszesen
+			);
 		}
 		else {
 			$siker = FALSE;
@@ -17,9 +32,6 @@
 		}
 	}	
 ?>
-
-<!DOCTYPE html>
-<html lang="hu">
 
 <head>
 	<meta charset="UTF-8">
@@ -39,25 +51,26 @@
 	<main>
 		<div class="main_multicolumn-content-wrapper">
 			<div class="left-column">
-				<h1>Jegyek</h1>
-				<br>
 
-				<script>
-					function increaseTicketCount(type) {
-						var input = document.getElementById('quantity_' + type);
-						input.value = parseInt(input.value) + 1;
-					}
-
-					function decreaseTicketCount(type) {
-						var input = document.getElementById('quantity_' + type);
-						var currentValue = parseInt(input.value);
-						if (currentValue > 0) {
-							input.value = currentValue - 1;
+				<?php
+					if (isset($_SESSION["message"]) && isset($_SESSION["message_type"])) {
+						if ($_SESSION["message_type"] == "neutral"){
+							echo '<p class="neutral-message">' . $_SESSION["message"] . '</p><br>';
+							unset($_SESSION["message"]);
+							unset($_SESSION["message_type"]);
+						}
+						else {
+							echo '<p class="success-message">' . $_SESSION["message"] . '</p><br>';
+							unset($_SESSION["message"]);
+							unset($_SESSION["message_type"]);
 						}
 					}
-				</script>
+				?>
+
+				<h1>Jegyek</h1>
+				<br>
 				
-				<form method="POST"></form> <!-- php-vel majd nyomon követni/feldolgozni - vagyis javascripttel számolni a kattintást -->
+				<form class="jegy_urlap" id="jegyurlap" action="jegyek.php" method="POST">
 
 					<table>
 						<tr>
@@ -72,11 +85,7 @@
 							<td>2000&nbsp;Ft</td>
 							<td>
 								<div class="jegyhozzaad">
-									<input type="hidden" id="quantity_felnott" name="quantity_felnott" value="<?php echo $quantity_felnott ?>">
-									<button class="jegy-btn" name="minus_felnott" onclick="decreaseTicketCount('felnott')">-</button>
-									<p class="elvalaszto">/</p>
-									<button class="jegy-btn" name="plus_felnott" onclick="increaseTicketCount('felnott')">+</button>
-									<p class="mennyiseg">0</p>
+									<input type="number" name="quantity_felnott" placeholder="0" value="0" min="0">
 								</div>
 							</td>
 						</tr>
@@ -86,11 +95,7 @@
 							<td>1500&nbsp;Ft</td>
 							<td>
 								<div class="jegyhozzaad">
-									<input type="hidden" id="quantity_diak" name="quantity_diak" value="0">
-									<button class="jegy-btn" name="minus_diak" onclick="decreaseTicketCount('felnott')">-</button>
-									<p class="elvalaszto">/</p>
-									<button class="jegy-btn" name="plus_diak" onclick="increaseTicketCount('felnott')">+</button>
-									<p class="mennyiseg">0</p>
+									<input type="number" name="quantity_diak" placeholder="0" value="0" min="0">
 								</div>
 							</td>
 						</tr>
@@ -100,11 +105,7 @@
 							<td>1000&nbsp;Ft</td>
 							<td>
 								<div class="jegyhozzaad">
-									<input type="hidden" id="quantity_gyerek" name="quantity_gyerek" value="0">
-									<button class="jegy-btn" name="minus_gyerek" onclick="decreaseTicketCount('felnott')">-</button>
-									<p class="elvalaszto">/</p>
-									<button class="jegy-btn" name="plus_gyerek" onclick="increaseTicketCount('felnott')">+</button>
-									<p class="mennyiseg">0</p>
+									<input type="number" name="quantity_gyerek" placeholder="0" value="0" min="0">
 								</div>
 							</td>
 						</tr>
@@ -114,11 +115,7 @@
 							<td>1000&nbsp;Ft</td>
 							<td>
 								<div class="jegyhozzaad">
-									<input type="hidden" id="quantity_nyugdijas" name="quantity_nyugdijas" value="0">
-									<button class="jegy-btn" name="minus_nyugdijas" onclick="decreaseTicketCount('felnott')">-</button>
-									<p class="elvalaszto">/</p>
-									<button class="jegy-btn" name="plus_nyugdijas" onclick="increaseTicketCount('felnott')">+</button>
-									<p class="mennyiseg">0</p>
+									<input type="number" name="quantity_nyugdijas" placeholder="0" value="0" min="0">
 								</div>
 							</td>
 						</tr>
@@ -128,25 +125,21 @@
 							<td>5000&nbsp;Ft</td>
 							<td>
 								<div class="jegyhozzaad">
-									<input type="hidden" id="quantity_csaladi" name="quantity_csaladi" value="0">
-									<button class="jegy-btn" name="minus_csaladi" onclick="decreaseTicketCount('felnott')">-</button>
-									<p class="elvalaszto">/</p>
-									<button class="jegy-btn" name="plus_csaladi" onclick="increaseTicketCount('felnott')">+</button>
-									<p class="mennyiseg">0</p>
+									<input type="number" name="quantity_csaladi" placeholder="0" value="0">
 								</div>
 							</td>
 						</tr>
 					</table>
 					<div class="formgomb">
-						<button type="reset" class="btn">Töröl</button>
-						<button type="submit" name="kosarba" class="btn">Kosárba</button>
+						<input type="reset" value="Töröl">
+						<input type="submit" class="submitclass" name="kosarba" value="Kosárba">
 					</div>
 
 				</form>
 				
 				<?php
 				if (isset($siker) && $siker === FALSE) {  // ha 0 jegyet akar valaki kosárba tenni
-					echo "<p class='error-message'>" . $uzenet . "</p>";;
+					echo '<p class="error-message">' . $uzenet . '</p>';
 					}
 				?>
 
@@ -187,6 +180,15 @@
 						echo "<p>Kérem adjon jegyet a kosárhoz.</p>";
 					}
 					?>
+
+					<div class="formgomb">
+						<form action="kosartorol.php" method="POST">
+							<input type="submit" class="kosarurit" name="kosarurit" value="Kosár ürítése">
+						</form>
+						<form action="fizetes.php" method="POST">
+							<input type="submit" class="fizetes" name="fizet" value="Fizetés">
+						</form>
+					</div>
 					
 				</div>
 			</div>
