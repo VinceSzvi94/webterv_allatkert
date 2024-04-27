@@ -5,6 +5,86 @@
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
+	include_once 'hir_functions.php';
+	include_once 'Comment.php';
+
+	if (isset($_POST["ujhir"])) {
+		$cim = $_POST["cim"];
+		$hirnev = $_POST["hirnev"];
+		$hirtest = $_POST["hirtest"];
+		$media = $_FILES["media"]; // "hirek/media/" . $_FILES["media"];
+
+		if (preg_match('/^[a-zA-Z0-9_]+$/', $hirnev)) {
+			$siker = TRUE;
+			$uzenet = "A hír sikeresen hozzáadva!";
+			$hir = array(
+				"cim" => $cim,
+				"hirnev" => $hirnev,
+				"datum" => date("Y-m-d H:i:s"),
+				"hirtest" => $hirtest,
+				"media" => $media,
+				"likes" => array(),
+			);
+			$path = "hirek/" . $hirnev . ".json";
+			create_hir($path, $hir);
+
+			// ha még nincs, lista is a hírek címeivel, időrendben a legkorábban kreált hír lesz elől
+			if (!file_exists("hirek/hirlista.json")) {
+				$hirek = array("hirek" => [$hirnev]);
+				file_put_contents("hirek/hirlista.json", json_encode($hirek));
+			} else {
+				$hirek = file_get_contents("hirek/hirlista.json");
+				$hirek = json_decode($hirek, true);
+				$hirek["hirek"] = array_merge($hirek["hirek"], [$hirnev]);
+				$json_data = json_encode($hirek, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+				file_put_contents("hirek/hirlista.json", $json_data);
+			}
+		}
+		else {
+			$siker = FALSE;
+			$uzenet = "Az azonosító csak betűket, számokat és alulvonást tartalmazhat!";
+		}
+	}
+
+	// hírek like/unlike-olása
+	if (isset($_GET['like']) && isset($_GET['user'])) {
+		$hirnev = $_GET['like'];
+		$user = $_GET['user'];
+	
+		$hirpath = "hirek/" . $hirnev . ".json";
+		$hir_arr = json_decode(file_get_contents($hirpath), true);
+		$hir = $hir_arr[0];
+	
+		if (!in_array($user, $hir['likes'])) {
+			$hir['likes'][] = $user;
+		}
+
+		$hir_arr[0] = $hir;
+		file_put_contents($hirpath, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+		
+		header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?'));
+		exit;
+	}
+	if (isset($_GET['unlike']) && isset($_GET['user'])) {
+		$hirnev = $_GET['unlike'];
+		$user = $_GET['user'];
+	
+		$hirpath = "hirek/" . $hirnev . ".json";
+		$hir_arr = json_decode(file_get_contents($hirpath), true);
+		$hir = $hir_arr[0];
+	
+		if (in_array($user, $hir['likes'])) {
+			$hir['likes'] = array_diff($hir['likes'], [$user]);
+		}
+
+		$hir_arr[0] = $hir;
+		file_put_contents($hirpath, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+		
+		header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?'));
+		exit;
+	}
+
+	// kommentek like/unlike-olása
 ?>
 
 <head>
@@ -13,6 +93,8 @@
 	<meta name="author" content="Kormos Sándor, Szigetvári Vince">
 	<title>Hírek | Gotham állatkert</title>
 	<link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome használata a like-okhoz -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	<link rel="icon" href="img/zoo3.png">
 	<meta name="keywords" content="Gotham, allatkert, zoo, Hungary">
 	<meta name="description" content="Gotham állatkert honlapja.">
@@ -28,10 +110,11 @@
 			<?php if(isset($_SESSION["user"]) && $_SESSION["user"]["role"] == "admin"): ?>
 				<h1>Hír hozzáadása</h1>
 				<br>
-				<form class="reg_urlap" action="ujhir.php" method="POST">
-					<input type="text" name="cim" placeholder="Cím..."> <br><br>
-					<textarea id="hirtest" name="hirtest" maxlength="2000"></textarea> <br><br>
-					<input type="file" id="file-upload" name="media" accept="image/*,video/mp4"/>
+				<form class="reg_urlap" action="hirek.php" method="POST" enctype="multipart/form-data">
+					<input type="text" name="cim" placeholder="Cím..."> <br>
+					<input type="text" name="hirnev" placeholder="Azonosító..."> <br>
+					<textarea id="hirtest" name="hirtest" maxlength="2222"></textarea> <br>
+					<input type="file" id="file-upload" name="media" accept="image/*,video/mp4"/> <br>
 					<div class="formgomb">
 						<input type="reset" value="Törlés">
 						<input type="submit" class="submitclass" name="ujhir" value="Hozzáad">
@@ -39,85 +122,85 @@
 				</form>
 			<?php endif; ?>
 
+			<?php
+			if(isset($_SESSION["user"]) && $_SESSION["user"]["role"] == "admin") {
+
+				// hír hozzáadás után hibaüzenet, vagy oldal újratöltés
+				if (isset($siker) && $siker === TRUE) {
+					$_SESSION["message"] = $uzenet;
+					header("Location: hirek.php");
+					exit;
+				}
+				else if (isset($siker) && $siker === FALSE) {
+					echo '<p class="error-message">' . $uzenet . '</p>';
+				}
+
+				// újratöltés után sikerüzenet
+				if (isset($_SESSION["message"])) {
+					echo '<p class="success-message">' . $_SESSION["message"] . '</p><br>';
+					unset($_SESSION["message"]);
+				}
+			}
+			?>
+
+			<!-- hírek listázása ha van, legfrissebb elől -->
+			<?php if (file_exists("hirek/hirlista.json")): ?>
 			<h1>Legfrissebb híreink</h1>
 			<br>
 
-			<div class="hirbox">
+			<?php
+			$hirlista = file_get_contents("hirek/hirlista.json");
+			$hirlista = json_decode($hirlista, true);
+			$hirlista = array_reverse($hirlista);
 
-				<div class="hir_header">
-					<h2>Tekintse meg legújabb lakónkat!</h2>
-					<p><span>2024.03.28.</span></p>
-				</div>
+			$logged_in_user = isset($_SESSION["user"]) ? $_SESSION["user"]["username"] : "";
 
-				<div class="hir_body">
+			foreach ($hirlista["hirek"] as $hirnev) {
+				$hirpath = "hirek/" . $hirnev . ".json";
+				$hir = load_hir($hirpath);
+				$comments = load_comments($hirpath);
 
-					<div class="hir_40">
-						<p>Ursula, a 10 éves gorillalányunk új lakóval lepte meg az állatkertet. Az új lakó, Bobi tegnap szültett meg, komplikációk nélkül egészségesen. Tekintse meg az első felvételeket gorillababánkról!</p>
-						<p>Az újszülött gorillák nagyon függnek az anyjuktól az első időszakban, és általában az anya hordja őket magán. Az első hónapokban szinte mindig az anya ölelésében vagy hátán fedezik fel a világot. A kis gorillák gyorsan fejlődnek, és az anyjuk segítségével fedezik fel a körülöttük lévő környezetet. Érdekes megfigyelni, ahogy a kis gorilla felfedezi az új dolgokat, játszik más kicsikkel, és tanul az anyjától és a többi felnőtt gorillától.</p>
-						<p>A gorillababák rendkívül társas lények is, és fontos a szocializációjukban a többi családtaggal való interakció. Látni fogod, hogy az anya gorilla nagyon figyelmes és gondoskodó az újszülöttjével, de idővel megengedi más családtagoknak is, hogy közel kerüljenek hozzá. Ahogy nőnek, a gorillababák játékosabbá válnak, és egyre több időt töltenek a környezetük felfedezésével. Az állatkert látogatói mindig örömmel nézik, ahogy a kis gorilla kacsintgat, ugrál és játszik az anyja és a többi családtagja között. Ez egy igazán csodálatos és érzékeny pillanat, amit érdemes megfigyelni.</p>
-					</div>
+				$liked_by_user = in_array($logged_in_user, $hir['likes']);
+				$action = $liked_by_user ? 'unlike' : 'like';
+				$no_of_likes = count($hir['likes']);
 
-					<div class="hir_55">
-						<video controls>
-							<source src="video/bebigorilla.mp4" type="video/mp4">
-							A videót nem sikerült lejátszani.
-						</video>
-					</div>
+				echo '<div class="hirbox">';
 
-				</div>
+					// cím
+					echo '<div class="hir_header">';
+						echo '<h1>' . $hir['cim'] . ' <a href="?' . $action . '=' . urlencode($hirnev) . '&user=' . urlencode($logged_in_user) . '"><span class="heart-icon ' . ($liked_by_user ? 'filled' : '') . '"></span></a>' . $no_of_likes . '</h1>';
+						echo '<p><span class="date">' . $hir["datum"] . '</span></p>';
+					echo '/div>';
 
-			</div>
+					// a hír maga
+					echo '<div class="hir_body">';
 
-			<div class="hirbox">
+						echo '<p>' . nl2br($hir["hirtest"]) . '</p>';
 
-				<div class="hir_header">
-					<h2>Új feketepárduc érkezett!</h2>
-					<p><span>2024.03.27.</span></p>
-				</div>
+						// média
+						$media = $hir["media"];
+						$extension = pathinfo($media, PATHINFO_EXTENSION);
 
-				<div class="hir_body">
+						if ($extension == 'mp4') {
+							echo '<video controls>';
+								echo '<source src="' . 'hirek/media/' . $media . '" type="video/mp4">';
+							echo '</video>';
+						}
+						else {
+							echo '<img src="' . 'hirek/media/' . $media . '" alt="media_' . $hirnev . '">';
+						}
 
-					<div class="hir_40">
-						<img src="img/fparduc.jpg" alt="parducPanna" title="Panna, a feketepárduc">
-					</div>
+					echo '/div>';
+					
+					// kommentek - először meglévők kiiratása majd új hozzáadása
+					// kommenteknek külön táblázat
 
-					<div class="hir_55">
-						<p>Új lakóval bővült az állatkert! Panna, a 3 éves feketepárduc eddig fogságban élt egy villában ahonnan az állatvéedők mentették ki. Panna érkezése nagy örömmel tölti el az állatkert látogatóit, hiszen ilyen ritka és különleges fajt képvisel. A feketepárducok rendkívül elegáns és izgalmas ragadozók, és Panna egyedi személyisége biztosan lenyűgözi majd a közönséget.</p>
-						<p>A feketepárduc, más néven "melanisztikus jaguár" vagy "melanisztikus leopárd", az emlősök egyik legelbűvölőbb ragadozója. A feketepárducok valójában nem külön fajhoz tartoznak, hanem a jaguárok és a leopárdok melanisztikus (sötét színű) változatai. A feketepárducokat a fekete bundájuk teszi különlegessé. Ez a fekete szín a melanin túlzott jelenléte miatt alakul ki, ami egy pigment a bőrben és a szőrben. Ez a fekete szín segít a párducoknak a rejtekhelyeken való könnyű elrejtőzésben és az éjszakai vadászat során. Ezek a ragadozók általában szóló élőhelyeket preferálnak, és rendkívül ügyesek a csendes, éjszakai vadászatban. Nagyon jó úszók és kitűnően másznak is, ami nagy előnyükre válik, amikor zsákmányt keresnek vagy menekülnek.</p>
-						<p>Az állatkertekben a feketepárducokat gyakran mutatják be látogatóknak, hiszen vonzó megjelenésük és érdekes viselkedésük miatt nagy népszerűségnek örvendenek. Az ilyen fajok bemutatása és megőrzése az állatkertek fontos feladatai közé tartozik, hogy hozzájáruljanak a vadonban élő populációk védelméhez és a fajok fenntarthatóságához.</p>
-						<p>Az állatkert gondozói nagy gonddal fogadják Pannát, és mindent megtesznek annak érdekében, hogy ő is otthon érezze magát az új környezetében. Az állatkert látogatói már izgatottan várják, hogy megismerkedjenek ezzel az új és izgalmas lakóval, és reménykednek benne, hogy láthatnak majd néhány természetes viselkedést is tőle, miközben alkalmazkodik új otthonához és barátaihoz.</p>
-					</div>
 
-				</div>
+				echo '/div>';
+			}
+			?>
 
-			</div>
-
-			<div class="hirbox">
-
-				<div class="hir_header">
-					<h2>Gazsi, a medve társat kapott!</h2>
-					<p><span>2024.03.26.</span></p>
-				</div>
-
-				<div class="hir_body">
-
-					<div class="hir_40">
-						<p>Gazsi, a már igen öreg grizzlimedve utolsó napjaira társat kapott! Barna, az új jövevény eddig egy vándorcirkuszban szolgált ahol nem részesült a legjobb bánásmódban. Szerencséjére az állatvédők kiemelték és most esélye nyílt egy új életet kezdeni.</p>
-						<p>Az állatkert gondozói nagy gonddal vezették be Barnát Gazsihoz. Az öreg medve láthatóan örült a társaságnak, és bár már nem volt a legfiatalabb, még mindig volt benne elég életerő és kíváncsiság ahhoz, hogy megtanuljon valamit az új barátjától.</p>
-						<p>Barna, bár eddig nem volt könnyű élete, most új lehetőséget kapott. Az állatkert biztonságos környezetet és megfelelő gondozást biztosít számára, hogy méltó módon élhesse meg a többi életét. Az állatkert látogatói már izgatottan várják, hogy találkozzanak ezzel az új párossal, és megfigyelhessék, ahogy összehangolják az életüket és megismerik egymást.</p>
-						<p>Ez a történet egy gyönyörű példa arra, hogy még azoknak az állatoknak is van reményük és lehetőségük az új életre, akik már nehéz körülmények között éltek. Az állatvédelem fontos szerepet játszik abban, hogy ilyen állatoknak is megadják a lehetőséget a boldog és biztonságos életre.</p>
-					</div>
-
-					<div class="hir_55">
-						<video controls>
-							<source src="video/medvek.mp4" type="video/mp4">
-							A videót nem sikerült lejátszani.
-						</video>
-					</div>
-
-				</div>
-
-			</div>
+			<?php endif; ?>
 
 		</div>
 	</main>

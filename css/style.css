@@ -318,7 +318,7 @@ main {
 	border-radius: 12px;
 	padding: 10px;
 } */
-.hirbox span {
+.date {
 	font-style: italic;
 }
 .hir_body {
@@ -352,7 +352,16 @@ main {
 		width: 100%;
 	}
 }
-
+/* likeok */
+.heart-icon:before {
+    content: "\f004";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+	border-color: white;
+}
+.heart-icon.filled:before {
+    color: yellow;
+}
 
 
 /* kapcsolat */
