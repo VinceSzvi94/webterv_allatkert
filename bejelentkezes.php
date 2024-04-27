@@ -7,9 +7,9 @@
     }
 
 	// felhasználók tömb betöltése
-	include_once 'functions.php';
+	include_once 'user_functions.php';
 	user_init();
-	$users = load_data("userdata.json");
+	$users = load_users("userdata.json");
 
 	$uzenet = "";
 	$siker = NULL;

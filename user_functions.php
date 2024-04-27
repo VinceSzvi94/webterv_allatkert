@@ -17,7 +17,7 @@
         }
     }
 
-    function load_user(string $path): array {
+    function load_users(string $path): array {
         if (!file_exists($path))
             die("Felhasználói adatok betöltése sikertelen!");
 
@@ -26,7 +26,7 @@
         return json_decode($json, true);
     }
 
-    function save_user(string $path, array $data) {
+    function save_users(string $path, array $data) {
         $users = load_user($path);
 
         $users["users"] = array_merge($users["users"], $data);

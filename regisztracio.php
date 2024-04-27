@@ -3,9 +3,9 @@
 
 <!-- felhasználok a userdata.json fájlban! -->
 <?php
-	require_once 'functions.php';
+	require_once 'user_functions.php';
 	user_init();
-	$users = load_data("userdata.json");
+	$users = load_users("userdata.json");
 
 	$hibak = [];
 
@@ -61,7 +61,7 @@
 				"role" => "user"
 			);
 			$siker = TRUE;
-			save_data("userdata.json", $new_user);
+			save_users("userdata.json", $new_user);
 		} else {
 			$siker = FALSE;
 		}

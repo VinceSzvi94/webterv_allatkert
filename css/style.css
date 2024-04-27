@@ -307,37 +307,37 @@ main {
 	padding: 12px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-}
-.hirbox:hover {
-	border: 2px solid white;
-	border-radius: 12px;
-	padding: 10px;
-}
-.hirbox span {
-	font-style: italic;
-}
-
-.hir_body {
 	max-width: 1300px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	flex-direction: row;
 }
-.hir_40 {
-	width: 40%;
+/* .hirbox:hover {
+	border: 2px solid white;
+	border-radius: 12px;
+	padding: 10px;
+} */
+.hirbox span {
+	font-style: italic;
 }
-.hir_55 {
+.hir_body {
 	width: 55%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column;
 }
-.hir_55 video {
+.hir_comments {
+	width: 40%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column;
+}
+.hir_body video {
 	width: 100%;
 	max-width: 705px;
-	height: auto;
-}
-.hir_40 video {
-	width: 100%;
-	max-width: 510px;
 	height: auto;
 }
 .hir_body img {
@@ -345,10 +345,10 @@ main {
 	height: auto;
 }
 @media (max-width: 800px) {
-	.hir_body {
+	.hir_box {
 		flex-direction: column;
 	}
-	.hir_40, .hir_55 {
+	.hir_body, .hir_comments {
 		width: 100%;
 	}
 }

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="hu">
 
+<?php
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+?>
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +25,20 @@
 	<main>
 		<div class="main-content-wrapper">
 			<!-- Az állatkert bemutatása, pár random kép + ChatGPT rizsa -->
+			<?php if(isset($_SESSION["user"]) && $_SESSION["user"]["role"] == "admin"): ?>
+				<h1>Hír hozzáadása</h1>
+				<br>
+				<form class="reg_urlap" action="ujhir.php" method="POST">
+					<input type="text" name="cim" placeholder="Cím..."> <br><br>
+					<textarea id="hirtest" name="hirtest" maxlength="2000"></textarea> <br><br>
+					<input type="file" id="file-upload" name="media" accept="image/*,video/mp4"/>
+					<div class="formgomb">
+						<input type="reset" value="Törlés">
+						<input type="submit" class="submitclass" name="ujhir" value="Hozzáad">
+					</div>
+				</form>
+			<?php endif; ?>
+
 			<h1>Legfrissebb híreink</h1>
 			<br>
 
