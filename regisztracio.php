@@ -16,7 +16,7 @@
 
 		if (!isset($_POST["username"]) || trim($_POST["username"]) === "")
 			$hibak[] = "Adjon meg felhasználónevet!";
-	
+
 		if (!isset($_POST["passwd"]) || trim($_POST["passwd"]) === "" || !isset($_POST["passwd2"]) || trim($_POST["passwd2"]) === "")
 		  $hibak[] = "Adja meg a jelszót és az ellenőrző jelszót!";
 
@@ -26,8 +26,12 @@
 		$jelszo = $_POST["passwd"];
 		$jelszo2 = $_POST["passwd2"];
 	
+		// túl rövid user
+		if (strlen($felhasznalonev) < 4)
+		$hibak[] = "A felhasználónévnek legalább 4 karakter hosszúnak kell lennie!";
+	
 		// foglalt felhasználónév és email ellenőrzése
-		foreach ($users as $user) {
+		foreach ($users["users"] as $user) {
 			if ($user["username"] === $felhasznalonev)
 				$hibak[] = "A megadott felhasználónév már foglalt!";
 			if ($user["email"] === $email)
@@ -37,7 +41,7 @@
 		// email cím ellenőrzése
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL))
 			$hibak[] = "Adjon meg érvényes email címet!";
-	
+		
 		// túl rövid jelszó
 		if (strlen($jelszo) < 8)
 			$hibak[] = "A jelszónak legalább 8 karakter hosszúnak kell lennie!";
@@ -58,7 +62,12 @@
 				"username" => $felhasznalonev,
 				"password" => password_hash($jelszo, PASSWORD_DEFAULT),
 				"profpic" => NULL,
-				"role" => "user"
+				"role" => "user",
+				"banned" => false,
+				"newuser" => true,
+				"életkor" => 0,
+				"nem" => "(egyéb)",
+				"vércsoport" => NULL
 			);
 			$siker = TRUE;
 			save_users("userdata.json", $new_user);
@@ -92,10 +101,10 @@
 				<h1>Regisztráció</h1>
 				<br>
 				<form class="reg_urlap" action="regisztracio.php" method="POST">
-					<input type="email" name="email" placeholder="E-mail cím..." value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>" required> <br><br>
-					<input type="text" name="username" placeholder="Felhasználónév..." value="<?php if (isset($_POST['username'])) echo $_POST['username']; ?>" required> <br><br>
-					<input type="password" name="passwd" placeholder="Jelszó..." required> <br><br>
-					<input type="password" name="passwd2" placeholder="Jelszó újra..." required> <br><br>
+					<input type="text" name="username" placeholder="Felhasználónév (min 4 kar.)" value="<?php if (isset($_POST['username'])) echo $_POST['username']; ?>" required> <br><br>
+					<input type="email" name="email" placeholder="E-mail cím" value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>" required> <br><br>
+					<input type="password" name="passwd" placeholder="Jelszó (min 8 kar., kis- és nagybetű, szám)" required> <br><br>
+					<input type="password" name="passwd2" placeholder="Jelszó újra" required> <br><br>
 					<div class="formgomb">
 						<input type="reset" value="Vissza">
 						<input type="submit" class="submitclass" name="regiszt" value="Regisztráció">

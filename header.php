@@ -40,8 +40,8 @@
                         <li><a href="regisztracio.php" class="<?php echo ($currentPage == "regisztracio") ? "current-page" : "other-page"; ?>">Regisztráció</a></li>
                         <li><a href="bejelentkezes.php" class="<?php echo ($currentPage == "bejelentkezes") ? "current-page" : "other-page"; ?>">Bejelentkezés</a></li>
                     <?php else: ?>
-                        <li><a href="profil.php" class="<?php echo ($currentPage == "profil") ? "current-page" : "other-page"; ?>">Profil</a></li>
                         <li><a href="kijelentkezes.php" class="other-page">Kijelentkezés</a></li>
+                        <li><a href="profil.php" class="<?php echo ($currentPage == "profil") ? "current-page" : "other-page"; ?>"><?php echo $_SESSION["user"]["username"], " profilja" ?></a></li>
                     <?php endif; ?>
                 </ul>
             </div>

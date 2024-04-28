@@ -3,44 +3,38 @@
         {
             "email": "admin@gothamzoo.hu",
             "username": "admin",
-            "password": "$2y$10$VYsBenkcembIrn\/B3LJLR.G3RRhBAU7Co5yX4ahVQj2s4QeSU28G2",
-            "profpic": "zoo3.png",
-            "role": "admin"
+            "password": "$2y$10$wdHaUQWADvHyqTspMBnnpuYSNrRcz2YO0yoVvuSma39.vRTU8sPRC",
+            "profpic": "img\/zoo3.png",
+            "role": "admin",
+            "banned": false,
+            "newuser": false,
+            "életkor": "22",
+            "nem": "nő",
+            "vércsoport": "A-"
         },
         {
-            "email": "szigetvari.vince@gmail.com",
-            "username": "VinceSz2",
-            "password": "$2y$10$Xfkor1fA7FuyY2NL.YOSp.owyCRzjfTY7XQJwEn8LTiM3H7mp8YYi",
+            "email": "asdf@gmail.com",
+            "username": "asdf",
+            "password": "$2y$10$GAhvhIWm8czkIqjy7wcIlOOsD9fQ14Zvn9HWXcofhvwwva2XKCGZO",
             "profpic": null,
-            "role": "user"
+            "role": "user",
+            "banned": false,
+            "newuser": true,
+            "életkor": "4",
+            "nem": "nő",
+            "vércsoport": "NULL"
         },
         {
-            "email": "ujemail@xxx.br",
-            "username": "macika",
-            "password": "$2y$10$At7rh04kSkDbk4PBZOs1KO0WYL1dezERV4oxifNnNG2x\/ZcvjCHx2",
+            "email": "asd2@gmail.com",
+            "username": "asd2",
+            "password": "$2y$10$GKKvLOVqJKLF.pFURUbpi.p6n3gwczPIo9QyqJ925evg\/78H9ui\/6",
             "profpic": null,
-            "role": "user"
-        },
-        {
-            "email": "vvv@vvv.hu",
-            "username": "cucus",
-            "password": "$2y$10$tGyY2yZyX6ogvtBMh02f..fl4UIBT47AQ5Q5pBSqXq7b3QOqEJdW2",
-            "profpic": null,
-            "role": "user"
-        },
-        {
-            "email": "brekkkki@brekegok.za",
-            "username": "beKucEE",
-            "password": "$2y$10$00zpFp09r5jLCwjKDupYle.jqpQ4LTK2uhqz.6dl0z37J7cXExnuq",
-            "profpic": null,
-            "role": "user"
-        },
-        {
-            "email": "mekegok@levelek.net",
-            "username": "kecsi",
-            "password": "$2y$10$C17aGTBT1M9c1kdyDjLlf.JQh7vgKv3QyiUgABqeu8zzgiUnUxWtC",
-            "profpic": null,
-            "role": "user"
+            "role": "user",
+            "banned": false,
+            "newuser": false,
+            "életkor": "22",
+            "nem": "férfi",
+            "vércsoport": "A+"
         }
     ]
 }

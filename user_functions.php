@@ -9,6 +9,11 @@
                 "password" => password_hash("Admin123", PASSWORD_DEFAULT),
                 "profpic" => "img/zoo3.png",
                 "role" => "admin",
+				"banned" => false,
+				"newuser" => false,
+				"életkor" => 44,
+				"nem" => "(egyéb)",
+				"vércsoport" => "O+" // A+, A-, B+, B-, O+, O-, AB+, AB-
             );
 
             $users = array("users" => [$admin_user]);
@@ -27,7 +32,7 @@
     }
 
     function save_users(string $path, array $data) {
-        $users = load_user($path);
+        $users = load_users($path);
 
         $users["users"] = array_merge($users["users"], $data);
 
@@ -36,4 +41,8 @@
         file_put_contents($path, $json_data);
     }
 
+	function update_users(string $path, $users) {
+        $json_data = json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        file_put_contents($path, $json_data);
+    }
 ?>

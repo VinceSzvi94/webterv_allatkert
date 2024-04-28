@@ -28,10 +28,20 @@
 	
 			foreach ($users["users"] as $user) {
 				if ($user["username"] === $felhasznalonev && password_verify($jelszo, $user["password"])) {
-					$uzenet = "Sikeres belépés!";
-					$_SESSION["user"] = $user;
-					$siker = TRUE;
-					header("Location: index.php");
+					if ($user["banned"]) {
+						$uzenet = "Sikertelen belépés! A felhasználó tiltva van!";
+					}
+					else {
+						$uzenet = "Sikeres belépés!";
+						$_SESSION["user"] = $user;
+						$siker = TRUE;
+						if ($_SESSION["user"]["newuser"]) {
+							header("Location: profil.php");
+						}
+						else {
+							header("Location: index.php");
+						}
+					}
 				}
 			}
 		}
