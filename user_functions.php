@@ -7,7 +7,7 @@
                 "email" => "admin@gothamzoo.hu",
                 "username" => "admin",
                 "password" => password_hash("Admin123", PASSWORD_DEFAULT),
-                "profpic" => "img/zoo3.png",
+                "profpic" => "zoo3.png",
                 "role" => "admin",
 				"banned" => false,
 				"newuser" => false,

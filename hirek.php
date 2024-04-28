@@ -11,11 +11,11 @@
 	$admin = isset($_SESSION["user"]) && $_SESSION["user"]["role"] == "admin";
 	$banned = isset($_SESSION["user"]) && $_SESSION["user"]["banned"] == true;
 
-	// like_hir();
-	// unlike_hir();
-	// like_comment();
-	// unlike_comment();
-	// delete_comment();
+	like_hir();
+	unlike_hir();
+	like_comment();
+	unlike_comment();
+	delete_comment();
 
 	$vhibak = [];
 	$vsiker = NULL;
@@ -45,7 +45,7 @@
                     break;
                 }
                 else if ($comment->isChild($parent_id)) {
-                    $comment->applyMethodOnChild($parent_id, "addAnswer", [$_POST["user"], $_POST["content"]]);
+                    $comment->applyMethodOnChild($parent_id, "addAnswer", $_POST["user"], $_POST["content"]);
 					$comment = serialize($comment);
                     break;
                 }
@@ -299,13 +299,13 @@
 				$action = $liked_by_user ? 'unlike' : 'like';
 				$no_of_likes = count($hir['likes']);
 
-				echo '<div class="hirbox">';
+				// cím
+				echo '<div class="hir_header">';
+					echo '<h2>' . $hir['cim'] . ' | <a href="?' . $action . '=' . urlencode($hirnev) . '&user=' . urlencode($logged_in_user) . '"><span class="heart-icon ' . ($liked_by_user ? 'filled' : '') . '"></span></a>' . $no_of_likes . '</h2>';
+					echo '<p><span class="date">' . $hir["datum"] . '</span></p>';
+				echo '</div>';
 
-					// cím
-					echo '<div class="hir_header">';
-						echo '<h1>' . $hir['cim'] . ' | <a href="?' . $action . '=' . urlencode($hirnev) . '&user=' . urlencode($logged_in_user) . '"><span class="heart-icon ' . ($liked_by_user ? 'filled' : '') . '"></span></a>' . $no_of_likes . '</h1>';
-						echo '<p><span class="date">' . $hir["datum"] . '</span></p>';
-					echo '/div>';
+				echo '<div class="hirbox">';
 
 					// a hír maga
 					echo '<div class="hir_body">';
@@ -325,47 +325,22 @@
 							else { echo '<img src="' . $media . '" alt="media_' . $hirnev . '">'; }
 						}
 
-					echo '/div>';
+					echo '</div>';
 					
 					// kommentek - először meglévők kiiratása majd új hozzáadása
 					echo '<div class="hir_comments">';
-					echo '<h4>Kommentek</h4>';
-					if (!isset($_SESSION["user"])) {
-						echo '<p> A kommenteléshez jelentkezzen be! </p>';
-						echo '<form action="bejelentkezes.php">';
-						echo '<input type="submit" class="submitclass" value="Bejelentkezéshez kattinson ide">';
-						echo '</form>';
-					}
-					else {
-						foreach ($comments as $comment) {
-							$comment = unserialize($comment);
-							// profil kép
-							$author = $comment->getAuthor();
-							$author_key = array_search($author, $all_users);
-							if ($author_key !== false) {
-								$author_data = $all_users[$author_key];
-								if ($author_data["profpic"] !== "" && $author_data["profpic"] !== null) {
-									$pic_path = "img/profpics/" . $author_data["profpic"];
-								}
-								else { $pic_path = "img/profpics/account.png"; }
-							}
-							else { $pic_path = "img/profpics/account.png"; }
-
-							// potenciális hibaüzenet:
-							if (count($vhibak) > 1 && $vhibak[0] == $comment->getId()) {
-								$vhibak = array_slice($vhibak, 1);
-							}
-							else { $vhibak = []; }
-
-							// komment megjelenítése
-							show_comment('comment', $pic_path, $comment, $logged_in_user, $admin, $banned, $hirnev, $vhibak);
-							
-							// válaszok megjelenítése (minden válasz egy szintnek számít)
-							$answers = $comment->listAnswers();
-
-							foreach ($answers as $answer) {
+						echo '<h2 class="centered">Kommentek</h2>';
+						if (!isset($_SESSION["user"])) {
+							echo '<p> A kommenteléshez jelentkezzen be! </p>';
+							echo '<form action="bejelentkezes.php">';
+							echo '<input type="submit" class="submitclass" value="Bejelentkezéshez kattinson ide">';
+							echo '</form>';
+						}
+						else {
+							foreach ($comments as $comment) {
+								$comment = unserialize($comment);
 								// profil kép
-								$author = $answer->getAuthor();
+								$author = $comment->getAuthor();
 								$author_key = array_search($author, $all_users);
 								if ($author_key !== false) {
 									$author_data = $all_users[$author_key];
@@ -377,60 +352,84 @@
 								else { $pic_path = "img/profpics/account.png"; }
 
 								// potenciális hibaüzenet:
-								if (count($vhibak) > 1 && $vhibak[0] == $answer.getId()) {
+								if (count($vhibak) > 1 && $vhibak[0] == $comment->getId()) {
 									$vhibak = array_slice($vhibak, 1);
 								}
 								else { $vhibak = []; }
 
-								show_comment('answer', $pic_path, $answer, $logged_in_user, $admin, $banned, $hirnev, $vhibak);
-							}
-						}
-
-						// új komment űrlap 
-						echo '<table class="comment">';
-						echo '<tr>';
-						echo '<td class="c_main">';
-
-						if ($banned) {
-							echo '<p> Ön ki lett tiltva a kommentelés lehetőségétől! </p>';
-						}
-						else {
-							echo '<form class="kom_urlap" action="hirek.php" method="POST">';
+								// komment megjelenítése
+								show_comment('comment', $pic_path, $comment, $logged_in_user, $admin, $banned, $hirnev, $vhibak);
 								
-								echo '<input type="hidden" name="hirnev" value="' . $hirnev . '">';
-								echo '<input type="hidden" name="user" value="' . $logged_in_user . '">';
+								// válaszok megjelenítése (minden válasz egy szintnek számít)
+								$answers = $comment->listAnswers();
 
-								echo '<div style="width: 100%; display: flex; justify-content: space-between; flex-direction: row;">';
+								foreach ($answers as $answer) {
+									// profil kép
+									$author = $answer->getAuthor();
+									$author_key = array_search($author, $all_users);
+									if ($author_key !== false) {
+										$author_data = $all_users[$author_key];
+										if ($author_data["profpic"] !== "" && $author_data["profpic"] !== null) {
+											$pic_path = "img/profpics/" . $author_data["profpic"];
+										}
+										else { $pic_path = "img/profpics/account.png"; }
+									}
+									else { $pic_path = "img/profpics/account.png"; }
 
-									echo '<div style="display: flex; align-items: center; flex-direction: column; width: 20%;">';
-										echo '<input type="reset" value="Elvet">';
-										echo '<input type="submit" class="submitclass" name="komment" value="Komment">';
-									echo '</div>';
+									// potenciális hibaüzenet:
+									if (count($vhibak) > 1 && $vhibak[0] == $answer.getId()) {
+										$vhibak = array_slice($vhibak, 1);
+									}
+									else { $vhibak = []; }
 
-									echo '<div style="display: flex; align-items: center; flex-direction: column; width: 75%;">';
-										echo '<textarea name="content" placeholder="Komment írása..."></textarea>';
-									echo '</div>';
-
-								echo '</div>';
-
-							echo '</form>';
-						}
-
-						echo '</td>';
-						echo '</tr>';
-						echo '</table>';
-
-						if (count($khibak) > 0) {
-							foreach ($khibak as $hiba) {
-								echo $hiba;
+									show_comment('answer', $pic_path, $answer, $logged_in_user, $admin, $banned, $hirnev, $vhibak);
+								}
 							}
+
+							// új komment űrlap 
+							echo '<table class="comment">';
+							echo '<tr>';
+							echo '<td class="c_main">';
+
+							if ($banned) {
+								echo '<p> Ön ki lett tiltva a kommentelés lehetőségétől! </p>';
+							}
+							else {
+								echo '<form class="kom_urlap" style="width: 100%;" action="hirek.php" method="POST">';
+									
+									echo '<input type="hidden" name="hirnev" value="' . $hirnev . '">';
+									echo '<input type="hidden" name="user" value="' . $logged_in_user . '">';
+
+									echo '<div style="width: 100%; display: flex; justify-content: space-between; flex-direction: row;">';
+
+										echo '<div style="display: flex; align-items: center; flex-direction: column; width: 20%;">';
+											echo '<input type="reset" style="width: 100%;" class="commentreset" value="Elvet">';
+											echo '<input type="submit" class="commentsubmit" name="komment" value="Komment">';
+										echo '</div>';
+
+										echo '<div style="display: flex; align-items: center; flex-direction: column; width: 75%;">';
+											echo '<textarea name="content" style="width: 100%;" placeholder="Komment írása..."></textarea>';
+										echo '</div>';
+
+									echo '</div>';
+
+								echo '</form>';
+							}
+
+							echo '</td>';
+							echo '</tr>';
+							echo '</table>';
+
+							if (count($khibak) > 0) {
+								foreach ($khibak as $hiba) {
+									echo $hiba;
+								}
+							}
+
 						}
+					echo '</div>';
 
-					}
-
-					echo '/div>';
-
-				echo '/div>';
+				echo '</div>';
 			}
 			?>
 

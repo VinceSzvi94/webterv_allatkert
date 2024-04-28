@@ -308,8 +308,9 @@ main {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	max-width: 1300px;
+	max-height: 1500px;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 	flex-direction: row;
 }
@@ -321,19 +322,24 @@ main {
 .date {
 	font-style: italic;
 }
+.centered {
+    text-align: center;
+}
 .hir_body {
-	width: 55%;
+	width: 45%;
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
 	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	max-height: 1400px;
 }
 .hir_comments {
-	width: 40%;
+	width: 45%;
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
 	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-start;
+	max-height: 1400px;
 }
 .hir_body video {
 	width: 100%;
@@ -357,9 +363,9 @@ main {
     content: "\f004";
     font-family: "Font Awesome 5 Free";
     font-weight: 700;
-	font-size: 12px;
+	font-size: 18px;
 	border-color: white;
-	color: #00562C;
+	color: #aab9b2;
 }
 .heart-icon.filled:before {
     color: yellow;
@@ -368,23 +374,43 @@ main {
     content: "\f086";
     font-family: "Font Awesome 5 Free";
     font-weight: 700;
-    font-size: 12px;
+    font-size: 18px;
 	border-color: white;
-    color: #00562C;
+    color: #03331c;
 }
 .trash-icon:before {
     content: "\f1f8";
     font-family: "Font Awesome 5 Free";
     font-weight: 700;
-    font-size: 12px;
+    font-size: 18px;
     border-color: white;
-    color: #00562C;
+    color: #aab9b2;
 }
 /* kommentek */
 .c_aux img {
-	width: 30px;
-	height: 30px;
+	width: 20px;
+	height: 20px;
 }
+.comment,
+.answer {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 6px;
+}
+.answer td, .comment td {
+	border: 1px solid #ddd;
+	padding: 5px;
+	text-align: left;
+}
+.c_aux {
+	background-color: #4CAF50;
+	color: white;
+	margin: 2px;
+}
+.c_aux p {
+	margin: 3px;
+}
+
 
 
 /* kapcsolat */
@@ -433,22 +459,33 @@ input[type="submit"] {
 	color: white;
 	cursor: pointer;
 	border-radius: 5px;
-	font-size: 18px;
+	font-size: 15px;
 }
 input[type="reset"],
 .submitclass {
 	width: 45%;
+}
+.commentsubmit,
+.commentreset {
+	width: 100%;
+	padding: 5px;
+	border: none;
+	color: white;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 10px;
 }
 .fizetes,
 .kosarurit {
 	width: 100%;
 }
 .fizetes,
+.commentsubmit,
 .submitclass {
 	background-color: #55c058;
-	margin-left: 6%;
 }
 .fizetes:hover,
+.commentsubmit:hover,
 .submitclass:hover {
 	background-color: #419746;
 }
@@ -459,10 +496,11 @@ input[type="reset"] {
 input[type="reset"]:hover {
     background-color: rgb(90, 90, 90);
 }
-.kosarurit {
+.kosarurit,
+.commentreset {
 	background-color: grey;
-    margin-right: 6%;
 }
+.commentreset:hover,
 .kosarurit:hover {
     background-color: rgb(90, 90, 90);
 }

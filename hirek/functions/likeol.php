@@ -63,19 +63,22 @@
             $comments = array_slice($hir_arr, 1);
             
             foreach ($comments as &$comment) {
+                $comment = unserialize($comment);
                 if ($comment->getId() === $id) {
                     $comment->like($user);
+                    $comment = serialize($comment);
                     break;
                 }
                 else if ($comment->isChild($id)) {
-                    $comment->applyMethodOnChild($id, "like", [$user]);
+                    $comment->applyMethodOnChild($id, "like", $user);
+                    $comment = serialize($comment);
                     break;
                 }
-                else { continue; }
+                else { $comment = serialize($comment); continue; }
             }
             unset($comment);
             $hir_arr = array_merge([$hir_arr[0]], $comments);
-            file_put_contents($path, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            file_put_contents($hirpath, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             
             header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?'));
             exit;
@@ -96,19 +99,22 @@
             $comments = array_slice($hir_arr, 1);
             
             foreach ($comments as &$comment) {
+                $comment = unserialize($comment);
                 if ($comment->getId() === $id) {
                     $comment->unlike($user);
+                    $comment = serialize($comment);
                     break;
                 }
                 else if ($comment->isChild($id)) {
-                    $comment->applyMethodOnChild($id, "unlike", [$user]);
+                    $comment->applyMethodOnChild($id, "unlike", $user);
+                    $comment = serialize($comment);
                     break;
                 }
-                else { continue; }
+                else { $comment = serialize($comment); continue; }
             }
             unset($comment);
             $hir_arr = array_merge([$hir_arr[0]], $comments);
-            file_put_contents($path, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            file_put_contents($hirpath, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             
             header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?'));
             exit;
@@ -116,8 +122,8 @@
     }
 
     function delete_comment() {
-        if (isset($_GET['delete'])) {
-            $hirnev_es_id = $_GET['delete'];
+        if (isset($_GET['c_delete'])) {
+            $hirnev_es_id = $_GET['c_delete'];
 
             $parts = explode('-', $hirnev_es_id);
             $hirnev = $parts[1];
@@ -128,18 +134,21 @@
             $comments = array_slice($hir_arr, 1);
             
             foreach ($comments as &$comment) {
+                $comment = unserialize($comment);
                 if ($comment->getId() === $id) {
                     $comment->delete();
+                    $comment = serialize($comment);
                     break;
                 }
                 else if ($comment->isChild($id)) {
                     $comment->applyMethodOnChild($id, "delete", []);
+                    $comment = serialize($comment);
                     break;
                 }
-                else { continue; }
+                else { $comment = serialize($comment); continue; }
             }
             $hir_arr = array_merge([$hir_arr[0]], $comments);
-            file_put_contents($path, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            file_put_contents($hirpath, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             
             header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?'));
             exit;

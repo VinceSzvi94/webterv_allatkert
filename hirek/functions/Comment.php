@@ -105,10 +105,10 @@
             $answers = [];
             $reversed_answers = array_reverse($this->answers); // a legfrissebb válaszokat legelől listázza
             foreach ($reversed_answers as $answer) {
+                $answers[] = $answer;
                 if (count($answer->getAnswers()) > 0) {
                     $answers = array_merge($answers, $answer->listAnswers());
                 }
-                else { $answers[] = $answer; }
             }
             return $answers;
         }

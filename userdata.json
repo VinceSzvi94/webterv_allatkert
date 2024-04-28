@@ -4,7 +4,7 @@
             "email": "admin@gothamzoo.hu",
             "username": "admin",
             "password": "$2y$10$wdHaUQWADvHyqTspMBnnpuYSNrRcz2YO0yoVvuSma39.vRTU8sPRC",
-            "profpic": "img\/zoo3.png",
+            "profpic": "zoo3.png",
             "role": "admin",
             "banned": false,
             "newuser": false,
@@ -47,6 +47,18 @@
             "életkor": "420",
             "nem": "(egyéb)",
             "vércsoport": "AB+"
+        },
+        {
+            "email": "ujemail@vvv.hu",
+            "username": "VinceSz",
+            "password": "$2y$10$z10dBdPHYPUhf7w\/w4E5w.hZuD1STho6ouF7BP5kbxcGUnI21hUQm",
+            "profpic": null,
+            "role": "user",
+            "banned": false,
+            "newuser": false,
+            "életkor": "555",
+            "nem": "férfi",
+            "vércsoport": "O+"
         }
     ]
 }

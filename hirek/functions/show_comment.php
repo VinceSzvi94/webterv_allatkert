@@ -27,7 +27,7 @@
 
             $answer = "";
             if ($comment->getAnswerTo() !== "" && $comment->getAnswerTo() !== null) {
-                $answer = '<span class="answer-icon"></span> ' . $comment->getAnswerTo();
+                $answer = '  <span class="answer-icon"></span>-> ' . $comment->getAnswerTo()->getAuthor();
             }
 
             echo '<table class="' . $type . '" style="width: ' . $width . '%;">';
@@ -53,9 +53,9 @@
                         echo '<div style="display: flex; align-items: center; flex-direction: column;">';
                             
                             // div 2: egymás melett, balra zárt
-                            echo '<div style="display: flex; justify-content: flex-start; flex-direction: row;">';
+                            echo '<div style="width: 100%; display: flex; justify-content: flex-start; align-items: flex-start; flex-direction: row;">';
                                 // az adott hir es komment kod egy string-ként van továbbítva, elvileg egyik összefűzött string sem tartalmazhat - karaktert így ez alapján lehet szétszedni a hir és komment kódot
-                                echo '<p><a href="?' . $action . '=' . urlencode($comment->getId().'-'.$hirnev) . '&user=' . urlencode($logged_in_user) . '"><span class="heart-icon ' . ($liked_by_user ? 'filled' : '') . '"></span></a>' . $no_of_likes .  ' | </p>';
+                                echo '<p style"margin: 3px;"><a href="?' . $action . '=' . urlencode($comment->getId().'-'.$hirnev) . '&user=' . urlencode($logged_in_user) . '"><span class="heart-icon ' . ($liked_by_user ? 'filled' : '') . '"></span></a>' . $no_of_likes .  '   |    </p>';
                                 if ($comment->getAuthor() == $logged_in_user || $admin) {
                                     echo '<p><a href="?c_delete=' . urlencode($comment->getId().'-'.$hirnev) . '"><span class="trash-icon"></span></a></p>';
                                 }
@@ -67,7 +67,7 @@
                                 echo '<p> Ön ki van tiltva a kommentelés lehetőségétől! </p>';
                             }
                             else {
-                                echo '<form class="kom_urlap" action="hirek.php" method="POST">';
+                                echo '<form class="kom_urlap" style="width: 100%;" action="hirek.php" method="POST">';
 
                                     echo '<input type="hidden" name="answer_to" value="' . $comment->getId() . '">';
                                     // echo '<input type="hidden" name="type" value="answer">';
@@ -76,13 +76,13 @@
 
                                     echo '<div style="width: 100%; display: flex; justify-content: space-between; flex-direction: row;">';
 
-                                        echo '<div style="display: flex; align-items: center; flex-direction: column; width: 20%;">';
-                                            echo '<input type="reset" value="Elvet">';
-                                            echo '<input type="submit" class="submitclass" name="valasz" value="Válasz">';
+                                        echo '<div style="width: 30%; display: flex; align-items: center; flex-direction: column; margin: 3px;">';
+                                            echo '<input type="reset" style="width: 100%;" class="commentreset" value="Elvet">';
+                                            echo '<input type="submit" class="commentsubmit" name="valasz" value="Válasz">';
                                         echo '</div>';
 
-                                        echo '<div style="display: flex; align-items: center; flex-direction: column; width: 75%;">';
-                                            echo '<textarea name="content" placeholder="Válasz írása..."></textarea>';
+                                        echo '<div style="width: 60%; display: flex; align-items: center; flex-direction: column; margin: 3px;">';
+                                            echo '<textarea style="width: 100%;" name="content" placeholder="Válasz írása..."></textarea>';
                                         echo '</div>';
 
                                     echo '</div>';
