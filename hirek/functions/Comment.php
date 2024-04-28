@@ -54,7 +54,7 @@
             return $this->deleted;
         }
 
-        // szerző, dátum és id nem módosítható
+        // dátum, szerző, id nem módosítható
 
         public function setContent(string $content) {
             $this->content = $content;
@@ -104,6 +104,28 @@
                 else { $answers[] = $answer; }
             }
             return $answers;
+        }
+
+        public function countLikes(): int {
+            return count($this->liked_by);
+        }
+
+        public function findRoot(): Comment {
+            $root = $this;
+            while ($root->getAnswerTo() !== "" && $root->getAnswerTo() !== null) {
+                $root = $root->getAnswerTo();
+            }
+            return $root;
+        }
+
+        public function findChild(string $id): Comment {
+            $answers = $this->listAnswers();
+            foreach ($answers as $answer) {
+                if ($answer->getId() === $id) {
+                    return $answer;
+                }
+            }
+            return null;
         }
 
         public function toArray(): array {

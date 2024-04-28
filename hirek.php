@@ -5,124 +5,18 @@
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-	include_once 'hir_functions.php';
-	include_once 'Comment.php';
+	include_once 'hirek/functions/hir_functions.php';
+	include_once 'hirek/functions/Comment.php';
+	include_once 'hirek/functions/addhir.php';
+	include_once 'hirek/functions/likeol.php';
+	include_once 'hirek/functions/kommentel.php';
+	include_once 'user_functions.php';
 
-	$hibak = [];
+	like_hir();
+	unlike_hir();
 
-	// hír hozzáadása
-	if (isset($_POST["ujhir"])) {
-		if (!isset($_POST["cim"]) || trim($_POST["cim"]) === "")
-			$hibak[] = "Adjon meg címet!";
-		if (!isset($_POST["hirnev"]) || trim($_POST["hirnev"]) === "")
-			$hibak[] = "Adjon meg azonosítót!";
-		if (!isset($_POST["hirtest"]) || trim($_POST["hirtest"]) === "")
-			$hibak[] = "Írja meg a hírt!";
-		if (!preg_match('/^[a-zA-Z0-9_]+$/', $hirnev)) {
-			$hibak[] = "Az azonosító csak betűket, számokat és alulvonást tartalmazhat!";
-		}
 
-		$cel = NULL;
-
-		// kép feltöltése
-		if (isset($_FILES["media"])) {
-			$engedelyezett_kiterjesztesek = ["jpg", "jpeg", "png", "mp4"];
-			$kiterjesztes = strtolower(pathinfo($_FILES["media"]["name"], PATHINFO_EXTENSION));
-
-			if (in_array($kiterjesztes, $engedelyezett_kiterjesztesek)) {
-
-				if ($_FILES["media"]["error"] === 0) {
-
-					if ($_FILES["media"]["size"] <= 31457280) {
-
-						$cel = "hirek/media/" . $_FILES["media"]["name"];
-						
-						if (file_exists($cel)) {
-							echo '<p class="neutral-message"> A régebbi fájl felülírásra kerül! </p>';
-						}
-						if (move_uploaded_file($_FILES["media"]["tmp_name"], $cel)) {
-							echo '<p class="success-message"> Sikeres fájlfeltöltés! </p>';
-						}
-						else { $hibak[] = "A fájl átmozgatása nem sikerült!"; }
-					}
-					else { $hibak[] = "A fájl mérete túl nagy!"; }
-				}
-				else { $hibak[] = "A fájlfeltöltés nem sikerült!"; }
-			}
-			else { $hibak[] = "A fájl kiterjesztése nem megfelelő!"; }
-		}
-
-		if (count($hibak) === 0) {
-			$cim = $_POST["cim"];
-			$hirnev = $_POST["hirnev"];
-			$hirtest = $_POST["hirtest"];
-			$siker = TRUE;
-			$uzenet = "A hír sikeresen hozzáadva!";
-			$hir = array(
-				"cim" => $cim,
-				"hirnev" => $hirnev,
-				"datum" => date("Y-m-d H:i:s"),
-				"hirtest" => $hirtest,
-				"media" => $cel,
-				"likes" => array(),
-			);
-			$path = "hirek/" . $hirnev . ".json";
-			create_hir($path, $hir);
-
-			// ha még nincs, lista is a hírek címeivel, időrendben a legkorábban kreált hír lesz elől
-			if (!file_exists("hirek/hirlista.json")) {
-				$hirek = array("hirek" => [$hirnev]);
-				file_put_contents("hirek/hirlista.json", json_encode($hirek));
-			} else {
-				$hirek = file_get_contents("hirek/hirlista.json");
-				$hirek = json_decode($hirek, true);
-				$hirek["hirek"] = array_merge($hirek["hirek"], [$hirnev]);
-				$json_data = json_encode($hirek, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-				file_put_contents("hirek/hirlista.json", $json_data);
-			}
-		}
-		else { $siker = FALSE; }
-	}
-
-	// hírek like/unlike-olása
-	if (isset($_GET['like']) && isset($_GET['user'])) {
-		$hirnev = $_GET['like'];
-		$user = $_GET['user'];
 	
-		$hirpath = "hirek/" . $hirnev . ".json";
-		$hir_arr = json_decode(file_get_contents($hirpath), true);
-		$hir = $hir_arr[0];
-	
-		if (!in_array($user, $hir['likes'])) {
-			$hir['likes'][] = $user;
-		}
-
-		$hir_arr[0] = $hir;
-		file_put_contents($hirpath, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-		
-		header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?'));
-		exit;
-	}
-	if (isset($_GET['unlike']) && isset($_GET['user'])) {
-		$hirnev = $_GET['unlike'];
-		$user = $_GET['user'];
-	
-		$hirpath = "hirek/" . $hirnev . ".json";
-		$hir_arr = json_decode(file_get_contents($hirpath), true);
-		$hir = $hir_arr[0];
-	
-		if (in_array($user, $hir['likes'])) {
-			$hir['likes'] = array_diff($hir['likes'], [$user]);
-		}
-
-		$hir_arr[0] = $hir;
-		file_put_contents($hirpath, json_encode($hir_arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-		
-		header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?'));
-		exit;
-	}
-
-	// kommentek like/unlike-olása
 ?>
 
 <head>
@@ -144,11 +38,11 @@
 
 	<main>
 		<div class="main-content-wrapper">
-			<!-- Az állatkert bemutatása, pár random kép + ChatGPT rizsa -->
+			
 			<?php if(isset($_SESSION["user"]) && $_SESSION["user"]["role"] == "admin"): ?>
 				<h1>Hír hozzáadása</h1>
 				<br>
-				<form class="reg_urlap" action="hirek.php" method="POST" enctype="multipart/form-data">
+				<form class="reg_urlap" action="addhir.php" method="POST" enctype="multipart/form-data">
 					<input type="text" name="cim" placeholder="Cím..."> <br>
 					<input type="text" name="hirnev" placeholder="Azonosító..."> <br>
 					<textarea id="hirtest" name="hirtest" maxlength="2222"></textarea> <br>
@@ -163,21 +57,11 @@
 			<?php
 			if(isset($_SESSION["user"]) && $_SESSION["user"]["role"] == "admin") {
 
-				// hír hozzáadás után hibaüzenet, vagy oldal újratöltés
-				if (isset($siker) && $siker === TRUE) {
-					$_SESSION["message"] = $uzenet;
-					header("Location: hirek.php");
-					exit;
-				}
-				else if (isset($siker) && $siker === FALSE) {
-					foreach ($hibak as $hiba) {
-						echo '<p class="error-message">' . $hiba . '</p>';
+				// újratöltés után sikerüzenet - mivel az űrlap külön van feldolgozva, űrlapfeldolgozás után mindig újratöltés lesz
+				if (isset($_SESSION["message"]) && is_array($_SESSION["message"])) {
+					foreach ($_SESSION["message"] as $uzenet) {
+						echo $uzenet;
 					}
-				}
-
-				// újratöltés után sikerüzenet
-				if (isset($_SESSION["message"])) {
-					echo '<p class="success-message">' . $_SESSION["message"] . '</p><br>';
 					unset($_SESSION["message"]);
 				}
 			}
@@ -194,6 +78,7 @@
 			$hirlista = array_reverse($hirlista);
 
 			$logged_in_user = isset($_SESSION["user"]) ? $_SESSION["user"]["username"] : "";
+			$all_users = load_users("userdata.json");
 
 			foreach ($hirlista["hirek"] as $hirnev) {
 				$hirpath = "hirek/" . $hirnev . ".json";
@@ -208,7 +93,7 @@
 
 					// cím
 					echo '<div class="hir_header">';
-						echo '<h1>' . $hir['cim'] . ' <a href="?' . $action . '=' . urlencode($hirnev) . '&user=' . urlencode($logged_in_user) . '"><span class="heart-icon ' . ($liked_by_user ? 'filled' : '') . '"></span></a>' . $no_of_likes . '</h1>';
+						echo '<h1>' . $hir['cim'] . ' | <a href="?' . $action . '=' . urlencode($hirnev) . '&user=' . urlencode($logged_in_user) . '"><span class="heart-icon ' . ($liked_by_user ? 'filled' : '') . '"></span></a>' . $no_of_likes . '</h1>';
 						echo '<p><span class="date">' . $hir["datum"] . '</span></p>';
 					echo '/div>';
 
@@ -219,15 +104,15 @@
 
 						// média
 						$media = $hir["media"];
-						$extension = pathinfo($media, PATHINFO_EXTENSION);
+						if ($media !== "" && $media !== null) {
+							$extension = pathinfo($media, PATHINFO_EXTENSION);
 
-						if ($extension == 'mp4') {
-							echo '<video controls>';
-								echo '<source src="' . $media . '" type="video/mp4">';
-							echo '</video>';
-						}
-						else {
-							echo '<img src="' . $media . '" alt="media_' . $hirnev . '">';
+							if ($extension == 'mp4') {
+								echo '<video controls>';
+									echo '<source src="' . $media . '" type="video/mp4">';
+								echo '</video>';
+							}
+							else { echo '<img src="' . $media . '" alt="media_' . $hirnev . '">'; }
 						}
 
 					echo '/div>';
@@ -243,7 +128,7 @@
 					}
 					else {
 						foreach ($comments as $comment) {
-							if ($comment["deleted"]) {
+							if ($comment.isDeleted()) {
 								echo '<table class="comment">';
 									echo '<tr>';
 										echo '<td class="c_main">';
@@ -253,8 +138,39 @@
 								echo '</table>';
 							}
 							else {
-								// komment objektum létrehozása
-								$comment_obj = new Comment($comment["author"], $comment["id"], $comment["date"], $comment["content"], $comment["answer_to"], $comment["answers"], $comment["liked_by"], $comment["deleted"]);
+								$liked_by_user = in_array($logged_in_user, $comment.getLikedBy());
+								$action = $liked_by_user ? 'c_unlike' : 'c_like';
+								$no_of_likes = $comment.countLikes();
+
+								// profil kép
+								$author = $comment.getAuthor();
+								$author_key = array_search($author, $all_users);
+								if ($author_key !== false) {
+									$author_data = $all_users[$author_key];
+								}
+								else { $author_data = array("profilepic" => "img/profilepic.png"); }
+
+								// komment megjelenítése
+								echo '<table class="comment">';
+									echo '<tr>';
+										echo '<td class="c_aux">';
+											echo '<p>' . $comment["author"] . ' - ' . $comment["date"] . '</p>';
+										echo '</td>';
+									echo '</tr>';
+									echo '<tr>';
+										echo '<td class="c_main">';
+											echo '<p>' . $comment["content"] . '</p>';
+										echo '</td>';
+									echo '</tr>';
+									echo '<tr>';
+										echo '<td class="c_aux">';
+											echo '<p>' .  . '</p>';
+										echo '</td>';
+									echo '</tr>';
+								echo '</table>';
+
+								// válaszok megjelenítése (minden válasz egy szintnek számít)
+								$answers = $comment_obj->listAnswers();
 							}
 						}
 					}
@@ -266,6 +182,8 @@
 			?>
 
 			<?php endif; ?>
+
+			<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Phoenix Group - Flaticon</a>
 
 		</div>
 	</main>
