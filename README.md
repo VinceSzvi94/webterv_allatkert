@@ -1,4 +1,4 @@
-# Webtervezés projektfeladat - állatkert  
+# Webtervezés projektfeladat - állatkert  git  
   
 ## Készítette:  
 - Szigetvári Vince  

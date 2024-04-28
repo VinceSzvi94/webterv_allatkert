@@ -352,15 +352,25 @@ main {
 		width: 100%;
 	}
 }
-/* likeok */
+/* likeok, válaszok */
 .heart-icon:before {
     content: "\f004";
     font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    font-weight: 700;
+	font-size: 12px;
 	border-color: white;
+	color: #00562C;
 }
 .heart-icon.filled:before {
     color: yellow;
+}
+.answer-icon:before {
+    content: "\f086";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 700;
+    font-size: 12px;
+	border-color: white;
+    color: #00562C;
 }
 
 
@@ -371,7 +381,7 @@ main {
 	list-style-type: none;
 }
 .social-media-icons img {
-	max-width: 50px;
+	max-width: 40px;
 	height: auto;
 }
 #l1 {
@@ -392,6 +402,7 @@ main {
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 	border-radius: 5px;
 }
+.reg_urlap textarea,
 .reg_urlap input[type="email"],
 .reg_urlap input[type="text"],
 .reg_urlap input[type="password"] {
@@ -478,9 +489,9 @@ input[type="reset"]:hover {
     animation: fadeOut 5s ease-out forwards;
 }
 .neutral-message {
-    color: #31708f;
-    background-color: #a6d3e9;
-    border-color: #7cc0ce;
+    color: #313536;
+    background-color: #bebfc0;
+    border-color: #7e8181;
     padding: 15px;
     margin-bottom: 20px;
     border: 1px solid transparent;

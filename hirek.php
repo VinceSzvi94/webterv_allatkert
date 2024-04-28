@@ -8,13 +8,54 @@
 	include_once 'hir_functions.php';
 	include_once 'Comment.php';
 
-	if (isset($_POST["ujhir"])) {
-		$cim = $_POST["cim"];
-		$hirnev = $_POST["hirnev"];
-		$hirtest = $_POST["hirtest"];
-		$media = $_FILES["media"]; // "hirek/media/" . $_FILES["media"];
+	$hibak = [];
 
-		if (preg_match('/^[a-zA-Z0-9_]+$/', $hirnev)) {
+	// hír hozzáadása
+	if (isset($_POST["ujhir"])) {
+		if (!isset($_POST["cim"]) || trim($_POST["cim"]) === "")
+			$hibak[] = "Adjon meg címet!";
+		if (!isset($_POST["hirnev"]) || trim($_POST["hirnev"]) === "")
+			$hibak[] = "Adjon meg azonosítót!";
+		if (!isset($_POST["hirtest"]) || trim($_POST["hirtest"]) === "")
+			$hibak[] = "Írja meg a hírt!";
+		if (!preg_match('/^[a-zA-Z0-9_]+$/', $hirnev)) {
+			$hibak[] = "Az azonosító csak betűket, számokat és alulvonást tartalmazhat!";
+		}
+
+		$cel = NULL;
+
+		// kép feltöltése
+		if (isset($_FILES["media"])) {
+			$engedelyezett_kiterjesztesek = ["jpg", "jpeg", "png", "mp4"];
+			$kiterjesztes = strtolower(pathinfo($_FILES["media"]["name"], PATHINFO_EXTENSION));
+
+			if (in_array($kiterjesztes, $engedelyezett_kiterjesztesek)) {
+
+				if ($_FILES["media"]["error"] === 0) {
+
+					if ($_FILES["media"]["size"] <= 31457280) {
+
+						$cel = "hirek/media/" . $_FILES["media"]["name"];
+						
+						if (file_exists($cel)) {
+							echo '<p class="neutral-message"> A régebbi fájl felülírásra kerül! </p>';
+						}
+						if (move_uploaded_file($_FILES["media"]["tmp_name"], $cel)) {
+							echo '<p class="success-message"> Sikeres fájlfeltöltés! </p>';
+						}
+						else { $hibak[] = "A fájl átmozgatása nem sikerült!"; }
+					}
+					else { $hibak[] = "A fájl mérete túl nagy!"; }
+				}
+				else { $hibak[] = "A fájlfeltöltés nem sikerült!"; }
+			}
+			else { $hibak[] = "A fájl kiterjesztése nem megfelelő!"; }
+		}
+
+		if (count($hibak) === 0) {
+			$cim = $_POST["cim"];
+			$hirnev = $_POST["hirnev"];
+			$hirtest = $_POST["hirtest"];
 			$siker = TRUE;
 			$uzenet = "A hír sikeresen hozzáadva!";
 			$hir = array(
@@ -22,7 +63,7 @@
 				"hirnev" => $hirnev,
 				"datum" => date("Y-m-d H:i:s"),
 				"hirtest" => $hirtest,
-				"media" => $media,
+				"media" => $cel,
 				"likes" => array(),
 			);
 			$path = "hirek/" . $hirnev . ".json";
@@ -40,10 +81,7 @@
 				file_put_contents("hirek/hirlista.json", $json_data);
 			}
 		}
-		else {
-			$siker = FALSE;
-			$uzenet = "Az azonosító csak betűket, számokat és alulvonást tartalmazhat!";
-		}
+		else { $siker = FALSE; }
 	}
 
 	// hírek like/unlike-olása
@@ -132,7 +170,9 @@
 					exit;
 				}
 				else if (isset($siker) && $siker === FALSE) {
-					echo '<p class="error-message">' . $uzenet . '</p>';
+					foreach ($hibak as $hiba) {
+						echo '<p class="error-message">' . $hiba . '</p>';
+					}
 				}
 
 				// újratöltés után sikerüzenet
@@ -183,18 +223,43 @@
 
 						if ($extension == 'mp4') {
 							echo '<video controls>';
-								echo '<source src="' . 'hirek/media/' . $media . '" type="video/mp4">';
+								echo '<source src="' . $media . '" type="video/mp4">';
 							echo '</video>';
 						}
 						else {
-							echo '<img src="' . 'hirek/media/' . $media . '" alt="media_' . $hirnev . '">';
+							echo '<img src="' . $media . '" alt="media_' . $hirnev . '">';
 						}
 
 					echo '/div>';
 					
 					// kommentek - először meglévők kiiratása majd új hozzáadása
-					// kommenteknek külön táblázat
+					echo '<div class="hir_comments">';
+					echo '<h4>Kommentek</h4>';
+					if (!isset($_SESSION["user"])) {
+						echo '<p> A kommenteléshez jelentkezzen be! </p>';
+						echo '<form action="bejelentkezes.php">';
+						echo '<input type="submit" class="submitclass" value="Bejelentkezéshez kattinson ide">';
+						echo '</form>';
+					}
+					else {
+						foreach ($comments as $comment) {
+							if ($comment["deleted"]) {
+								echo '<table class="comment">';
+									echo '<tr>';
+										echo '<td class="c_main">';
+											echo '<p> A komment törölve lett! </p>';
+										echo '</td>';
+									echo '</tr>';
+								echo '</table>';
+							}
+							else {
+								// komment objektum létrehozása
+								$comment_obj = new Comment($comment["author"], $comment["id"], $comment["date"], $comment["content"], $comment["answer_to"], $comment["answers"], $comment["liked_by"], $comment["deleted"]);
+							}
+						}
+					}
 
+					echo '/div>';
 
 				echo '/div>';
 			}
