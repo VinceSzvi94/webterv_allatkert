@@ -35,6 +35,18 @@
             "életkor": "22",
             "nem": "férfi",
             "vércsoport": "A+"
+        },
+        {
+            "email": "szigetvari.vince@gmail.com",
+            "username": "ttt55",
+            "password": "$2y$10$pmgKc6T.fnDQFCi1worZ5Onc6100FEvWUoRrn5XJjrgML5LTBOH7y",
+            "profpic": null,
+            "role": "user",
+            "banned": false,
+            "newuser": false,
+            "életkor": "420",
+            "nem": "(egyéb)",
+            "vércsoport": "AB+"
         }
     ]
 }

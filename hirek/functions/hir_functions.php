@@ -1,7 +1,6 @@
 <?php
 
-    
-    include_once "Comment.php";
+    // include_once "Comment.php";
 
     function create_hir(string $path, array $hir) {
         $hir_data = [$hir];
@@ -28,15 +27,15 @@
         $json = file_get_contents($path);
         $data_decoded = json_decode($json, true);
 
-        if (count($data_decoded) <= 1) // ha nincs komment, akkor üres tömböt ad vissza
-            return [];
-
         return array_slice($data_decoded, 1);
     }
 
-    function save_comments(string $path, $comment) {
-        $data = load_comments($path);
-        $data = array_merge($data, $comment);
+    function save_comments(string $path, Comment $comment) {
+        $json = file_get_contents($path);
+        $data = json_decode($json, true);
+
+        $ser_comment = serialize($comment);
+        array_push($data, $ser_comment); 
         $json_data = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         file_put_contents($path, $json_data);

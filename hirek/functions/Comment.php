@@ -6,16 +6,21 @@
         private $date;
         private $content;
         private $answer_to;
+        private $depth;
         private $answers;
         private $liked_by;
         private $deleted;
 
-        public function __construct(string $author, string $content, string $answer_to) {
+        public function __construct(string $author, string $content, $answer_to=null) {
             $this->author = $author;
             $this->id = uniqid();
             $this->date = date('Y-m-d H:i:s');
             $this->content = $content;
             $this->answer_to = $answer_to;
+            if ($answer_to !== null) {
+                $this->depth = $answer_to->depth + 1;
+            }
+            else { $this->depth = 0; }
             $this->answers = [];
             $this->liked_by = [];
             $this->deleted = false;
@@ -38,8 +43,12 @@
             return $this->content;
         }
 
-        public function getAnswerTo(): string {
+        public function getAnswerTo() {
             return $this->answer_to;
+        }
+
+        public function getDepth(): int {
+            return $this->depth;
         }
 
         public function getAnswers(): array {
@@ -54,19 +63,16 @@
             return $this->deleted;
         }
 
-        // dátum, szerző, id nem módosítható
+        // dátum, szerző, id, mélység és hogy kinek volt a válasz nem módosítható
 
         public function setContent(string $content) {
             $this->content = $content;
         }
 
-        public function setAnswerTo(string $answer_to) {
-            $this->answer_to = $answer_to;
-        }
-
-        public function setAnswers(array $answers) {
-            $this->answers = $answers;
-        }
+        // válaszokat egyesével addAnswer metódussal megadni!
+        // public function setAnswers(array $answers) {
+        //     $this->answers = $answers;
+        // }
 
         public function setLikedBy(array $liked_by) {
             $this->liked_by = $liked_by;
@@ -89,11 +95,12 @@
             }
         }
 
-        public function addAnswer(Comment $answer) {
+        public function addAnswer(string $author, string $content) {
+            $answer = new Comment($author, $content, $this);
             $this->answers[] = $answer;
         }
 
-        public function listAnswers():array {
+        public function listAnswers(): array {
             // válaszok rekurzív bejárása
             $answers = [];
             $reversed_answers = array_reverse($this->answers); // a legfrissebb válaszokat legelől listázza
@@ -118,7 +125,7 @@
             return $root;
         }
 
-        public function findChild(string $id): Comment {
+        public function findChild(string $id) {
             $answers = $this->listAnswers();
             foreach ($answers as $answer) {
                 if ($answer->getId() === $id) {
@@ -126,6 +133,31 @@
                 }
             }
             return null;
+        }
+
+        public function isChild(string $id): bool {
+            $child = $this->findChild($id);
+            return $child !== null;
+        }
+
+        public function applyMethodOnChild(string $childId, string $methodName, ...$params) {
+            // metódus alkalmazása alkommentre
+            if ($this->isChild($childId)) {
+                foreach ($this->answers as $answer) {
+
+                    if ($answer->getId() === $childId) {
+                        if (method_exists($answer, $methodName)) {
+                            return call_user_func_array([$answer, $methodName], $params);
+                        }
+                        return null; // valamiért nem létezett a metódus
+                    }
+                    else if ($answer->isChild($childId)) {
+                        return $answer->applyMethodOnChild($childId, $methodName, $params);
+                    }
+                    else { continue; }
+                }
+            }
+            return null; // alkomment más kmmenthez tartozik
         }
 
         public function toArray(): array {

@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="hu">
-
 <?php
 	if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
+
+?>
+
+<!DOCTYPE html>
+<html lang="hu">
+
+<?php
 
 	// felhasználók tömb betöltése
 	include_once 'user_functions.php';
